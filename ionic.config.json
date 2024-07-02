@@ -1,0 +1,7 @@
+{
+  "name": "Spiral Music",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
