@@ -88,10 +88,6 @@ export class LoginPage implements OnInit{
   onClick = async () => {
     if(!this.isValidEmail || !this.isValidPassword) return;
 
-    //Aqui se debe hacer el login y entrar al sistema
-    console.log(`Email ${this.emailValue }`)
-    console.log(`Password ${this.passwordValue}`)
-
     //* Aqui se guarda el token del user y el rol del usuario
     const result = await this.callService.call({
       method: 'post',
@@ -102,24 +98,28 @@ export class LoginPage implements OnInit{
         password: this.passwordValue
       }
     })
-    console.log(result);
 
-
-    this.authService.setUserRole(1);
     this.#showMessageBar(result.message['description'], result.message['code'])
+    if(result.message['code'] == 1 || result.message['code'] == 3 ){
+      return; 
+    }
 
+    const data = result['data'];
 
-    this.router.navigate(['/tabs'])
+    console.log(data)
+    
+    this.storageService.set('token', data.token)
+    this.storageService.set('userI', data.userId)
+    this.authService.setUserRole(1);
+    
+  
+    setTimeout(() => {
+      this.router.navigate(['/tabs'])
+    }, 200)
   }
 
   onRedirect = () => {
-    this.authService.setUserRole(1);
-    this.router.navigate(['/tabs'])
-
-
-
-    // this.router.navigate(['/register'])
-
+    this.router.navigate(['/register'])
   }
   
 
