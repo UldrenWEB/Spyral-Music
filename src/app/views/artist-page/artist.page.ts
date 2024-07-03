@@ -1,6 +1,8 @@
 import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
 import { DataService } from "src/app/service/DataService";
+import { Camera, CameraResultType, CameraSource, Photo } from '@capacitor/camera';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 
 @Component({
     selector: 'app-artist',
@@ -12,6 +14,7 @@ export class ArtistPage implements OnInit {
     constructor(
         private dataService: DataService,
         private router: Router,
+        private sanitizer: DomSanitizer
     ) {}
 
     ngOnInit(): void {
@@ -19,7 +22,7 @@ export class ArtistPage implements OnInit {
     }
 
     selectImage: boolean = false;
-    srcImage: string = '';
+    srcImage: SafeResourceUrl | undefined;
     artistnameValue: string = '';
     selectedGenres: string[] = [];
     alertCode: number = 0;
@@ -68,40 +71,48 @@ export class ArtistPage implements OnInit {
     }
 
 
-    //Metodo para abrir imagen
-    // openImagePicker = async () => {  
-    //     const hasPermission = await this.imagePicker.hasReadPermission();
-    //     console.log('Status del permiso: ', hasPermission)
-    //     if(!hasPermission) {
-    //         const permission = await this.imagePicker.requestReadPermission();
-    //         console.log('El permiso que dio es: ', permission)
-    //     }else{
-    //         const options: ImagePickerOptions = {
-    //             maximumImagesCount: 1,
-    //         }
-    //         const photos = await this.imagePicker.getPictures(options);
-    //         if(photos){
-    //             const srcImage = this.webView.convertFileSrc(photos[0]);
-    //             this.selectImage = true;
-    //             this.srcImage = srcImage;
-    //         }else{
-    //             console.log('El resultado de las fotos es vacio');
-    //         }
-            
-    //     }
-    // }
-
+    async openImagePicker() {
+        try {
+          const image: Photo = await Camera.getPhoto({
+            quality: 90,
+            allowEditing: false,
+            resultType: CameraResultType.Uri, // Obtiene la URI de la imagen
+            source: CameraSource.Photos // Fuente de las fotos, puedes cambiar a CameraSource.Camera para abrir la cámara directamente
+          });
     
-
+          if (image && image.webPath) {
+            this.srcImage = this.sanitizer.bypassSecurityTrustResourceUrl(image.webPath);
+            this.selectImage = true;
+            console.log('Imagen seleccionada: ', this.srcImage);
+          } else {
+            console.log('El resultado de las fotos es vacío');
+          }
+        } catch (error) {
+          console.error('Error seleccionando la imagen: ', error);
+        }
+      }
+      
     //Aqui se hara la peticion con el user y el artista, primero se agrega el artista y luego se agrega el usuario con el id del artista
     onClick = () => {
-        if(!this.isValidArtistname) return this.#showMessageBar('Please enter the artist name', 3)
+        if(!this.isValidArtistname) return this.#showMessageBar('Please enter the artist name', 3);
 
-        if(this.selectedGenres.length <= 0) return this.#showMessageBar('Please select a genre', 3)
-        
+        if(this.selectedGenres.length <= 0) return this.#showMessageBar('Please select a genre', 3);
+
+        if(!this.selectImage) return this.#showMessageBar('Please select image', 3);
+
+        this.resetProps();
+        //Usuario que viene del registro
         const user = this.dataService.getData();
         
         console.log('USER', user, this.selectedGenres)
-        this.router.navigate(['/tabs/home'])
+        this.router.navigate(['/login'])
+    }
+
+    private resetProps = () : void => {
+        //Set properties
+        this.selectImage = false;
+        this.srcImage = '';
+        this.artistnameValue = '';
+        this.selectedGenres = [];
     }
 }

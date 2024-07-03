@@ -7,17 +7,21 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { IonicStorageModule } from '@ionic/storage-angular';
 import { MiniPlayerComponent } from './components/song-component/song.component';
+import { LoaderComponent } from './components/loader-component/loader.component';
+import { SecureStorage } from '@awesome-cordova-plugins/secure-storage/ngx';
 
 
 
 @NgModule({
   declarations: [AppComponent],
+  providers: [SecureStorage],
   imports: [
     BrowserModule, 
     IonicModule.forRoot(),
      IonicStorageModule.forRoot(),
      AppRoutingModule,
-      MiniPlayerComponent
+      MiniPlayerComponent,
+      LoaderComponent,
     ],
   bootstrap: [AppComponent],
 })

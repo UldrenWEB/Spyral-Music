@@ -3,6 +3,8 @@ import { Router } from '@angular/router';
 import { Keyboard } from '@capacitor/keyboard';
 import { Platform } from '@ionic/angular';
 import { AuthService } from 'src/app/service/AuthServices';
+import { AuthStorageService } from 'src/app/service/AuthStorage';
+import { CallService } from 'src/app/service/CallService';
 import { StorageService } from 'src/app/service/StorageService';
 
 
@@ -13,7 +15,14 @@ import { StorageService } from 'src/app/service/StorageService';
 })
 export class LoginPage implements OnInit{
 
-  constructor(private storageService: StorageService, private router: Router, private authService: AuthService, private platform: Platform) {}
+  constructor(
+      private storageService: StorageService,
+      private router: Router,
+      private authService: AuthService,
+      private platform: Platform,
+      private callService: CallService,
+      private authStorageService: AuthStorageService
+    ) {}
   
   async ngOnInit(): Promise<void> {
     await this.storageService.init();
@@ -78,7 +87,7 @@ export class LoginPage implements OnInit{
     }, 3000)
   }
 
-  onClick = () : void => {
+  onClick = async () => {
     if(!this.isValidEmail || !this.isValidPassword) return;
 
     //Aqui se debe hacer el login y entrar al sistema
@@ -86,13 +95,29 @@ export class LoginPage implements OnInit{
     console.log(`Password ${this.passwordValue}`)
 
     //* Aqui se guarda el token del user y el rol del usuario
-    this.storageService.set('token', 'token');
+    const result = await this.callService.call({
+      method: 'post',
+      endPoint: 'login',
+      isToken: false,
+      body: {
+        email: this.emailValue,
+        password: this.passwordValue
+      }
+    })
+    console.log(result);
+
+
     this.authService.setUserRole(1);
+    this.#showMessageBar(result.message['description'], result.message['code'])
+
+
     this.router.navigate(['/tabs'])
   }
 
   onRedirect = () => {
+    
     this.router.navigate(['/register'])
+
   }
   
 

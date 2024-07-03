@@ -1,4 +1,5 @@
 <ion-app>
+  <app-loader *ngIf="isLoading$ | async"></app-loader>
   <ion-router-outlet></ion-router-outlet>
   <app-song-player *ngIf="isMiniPlayerVisible"></app-song-player>
 </ion-app>

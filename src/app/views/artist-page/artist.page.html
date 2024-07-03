@@ -1,6 +1,6 @@
 <div class="container">
     <div class="cont-logo">
-        <img src="../../../assets/spiralLogo.png" alt="Logo" class="logo">
+        <img src="../../../assets/spiralLogo.svg" width="120px" alt="Logo" class="logo rotating-image">
         <span class="txtLogo">Spyral</span>
     </div>
     
@@ -42,7 +42,7 @@
     </div>
 
     <div class="cont-image-picker">
-        <div class="image-picker">
+        <div (click)="openImagePicker()" class="image-picker">
             <h2 *ngIf="!selectImage">Select your artist image</h2>
             <img *ngIf="selectImage" [src]="srcImage" alt="Artist Image">
         </div>

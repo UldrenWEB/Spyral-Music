@@ -5,10 +5,8 @@ import { Camera, CameraResultType, CameraSource, Photo } from '@capacitor/camera
 import { FilePicker } from "@capawesome/capacitor-file-picker";
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { Platform } from "@ionic/angular";
-import { Capacitor } from "@capacitor/core";
 import {AndroidPermissions} from '@awesome-cordova-plugins/android-permissions/ngx';
 
-import { FileService } from "src/app/service/FileService";
 
 @Component({
   selector: 'app-upload',
@@ -22,7 +20,7 @@ export class UploadPage implements OnInit {
     selectImage: boolean = false;
     selectAudio: boolean = false;
     nameAudio: string = '';
-    srcImage: SafeResourceUrl | undefined;;
+    srcImage: SafeResourceUrl | undefined;
     selectedGenres: string[] = [];
     showAlert: boolean = false;
     alertMessage: string = '';
@@ -288,25 +286,25 @@ export class UploadPage implements OnInit {
 
 
       //Metodo para abrir imagen
-      async openImagePicker() {
-        try {
-          const image: Photo = await Camera.getPhoto({
-            quality: 90,
-            allowEditing: false,
-            resultType: CameraResultType.Uri, // Obtiene la URI de la imagen
-            source: CameraSource.Photos // Fuente de las fotos, puedes cambiar a CameraSource.Camera para abrir la cámara directamente
-          });
-    
-          if (image && image.webPath) {
-            this.srcImage = this.sanitizer.bypassSecurityTrustResourceUrl(image.webPath);
-            this.selectImage = true;
-            console.log('Imagen seleccionada: ', this.srcImage);
-          } else {
-            console.log('El resultado de las fotos es vacío');
-          }
-        } catch (error) {
-          console.error('Error seleccionando la imagen: ', error);
-        }
+  async openImagePicker() {
+    try {
+      const image: Photo = await Camera.getPhoto({
+        quality: 90,
+        allowEditing: false,
+        resultType: CameraResultType.Uri, // Obtiene la URI de la imagen
+        source: CameraSource.Photos // Fuente de las fotos, puedes cambiar a CameraSource.Camera para abrir la cámara directamente
+      });
+
+      if (image && image.webPath) {
+        this.srcImage = this.sanitizer.bypassSecurityTrustResourceUrl(image.webPath);
+        this.selectImage = true;
+        console.log('Imagen seleccionada: ', this.srcImage);
+      } else {
+        console.log('El resultado de las fotos es vacío');
       }
+    } catch (error) {
+      console.error('Error seleccionando la imagen: ', error);
+    }
+  }
     
 }

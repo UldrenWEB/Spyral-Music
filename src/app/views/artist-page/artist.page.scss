@@ -50,7 +50,7 @@
 
 .cont-input{
     padding: 0em 1em;
-    gap: 1em;
+    gap: 1.5em;
 }
 
 .cont-btn {
@@ -61,6 +61,7 @@
     flex-direction: column;
     gap: 1em;
     align-items: center;
+    margin-top: 1em;
 }
 
 .btn-register{
@@ -94,7 +95,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-top: 1em;
+    margin-top: 2em;
 }
 
 .image-picker{
@@ -123,6 +124,19 @@ h2{
     text-align: center;
     font-family: $font-new;
 }
+
+@keyframes rotateImage {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  
+  .rotating-image {
+    animation: rotateImage 1.5s linear infinite;
+  }
 
 ion-select{
     --highlight-color-valid: #FF00B8;
