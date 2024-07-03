@@ -1,0 +1,30 @@
+
+<div class="container">
+  <button (click)="navigateToSong()">
+    <div *ngIf="currentSong" class="mini-player">
+      <div class="image-container">
+        <img [src]="currentSong.image" alt="Portada de la canción">
+      </div>
+      <div class="song-info">
+        <h3>{{ truncateTitle('PROBANDO TITULO DE LA CANCION PARA VER' || '', 7) }}</h3>
+      </div>
+      <div class="controls">
+        <button (click)="playPrevious(); $event.stopPropagation()" class="control-button">
+          <ion-icon name="play-back-circle-outline"></ion-icon>
+        </button>
+        <button (click)="togglePlayPause();  $event.stopPropagation()" class="control-button">
+          <ion-icon *ngIf="isPlaying; else playIcon" name="pause-circle-outline"></ion-icon>
+          <ng-template #playIcon>
+            <ion-icon name="play-circle-outline"></ion-icon>
+          </ng-template>
+        </button>
+        <button (click)="playNext();  $event.stopPropagation()" class="control-button">
+          <ion-icon name="play-forward-circle-outline"></ion-icon>
+        </button>
+        <button (click)="stop();  $event.stopPropagation()" class="control-button">
+          <ion-icon name="close-circle-outline"></ion-icon>
+        </button>
+      </div>
+    </div>
+  </button>
+</div>

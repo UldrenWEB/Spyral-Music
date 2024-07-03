@@ -1,0 +1,51 @@
+@import '../../../theme/variables.scss';
+
+.image-item{
+    border-radius: 10px;
+}
+
+.cancel-button {
+    color: red !important;
+}
+
+
+
+ion-card {  
+  margin-bottom: 40px;
+  background-color: rgba($color: #000000, $alpha: 0.7);
+  box-shadow: 0 2px 4px 0 rgba(255, 255, 255, 0.2), 0 3px 10px 0 rgba(255, 255, 255, 0.19);
+  // border: 1px solid $color-primary;
+    ion-item {
+      --inner-padding-end: 0;
+      --inner-padding-start: 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      --background: black;
+      height: 6em;
+
+      ion-thumbnail {
+        --size: 48px;
+      }
+  
+      ion-label {
+        h2 {
+          font-size: 1.2em;
+          color: $color-primary;
+          font-family: $font-new;
+        }
+  
+        p {
+          font-size: 0.8em;
+          color: #666;
+        }
+      }
+  
+      ion-buttons {
+        ion-button {
+          --padding-end: 0;
+          --padding-start: 0;
+        }
+      }
+    }
+  }

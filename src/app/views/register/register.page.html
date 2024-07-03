@@ -1,0 +1,80 @@
+<div class="container">
+    <div class="cont-logo">
+        <img src="../../../assets/spiralLogo.png" alt="Logo" class="logo">
+        <span class="txtLogo">Spyral</span>
+    </div>
+    
+    <div class="cont-title">
+        <span class="txt-title">Create Account</span>
+        <span class="txt-description">Enter your information!</span>
+    </div>
+
+    <ion-content class="custom-ion-content">
+
+        <div class="container-input">
+            <app-input-component
+                [label]="'Username'"
+                fill="outline"
+                labelPlacement="floating"
+                [counter]="true"
+                [maxlength]="15"
+                [(value)]="usernameValue"
+                helperText="Enter a valid username"
+                errorText="Invalid username"
+                colorText="#FF00B8"
+                (valueChange)="onValueChangeUsername($event)"
+                [regexPattern]="regexUsername"
+            ></app-input-component>
+            <app-input-component
+                [label]="'Email'"
+                fill="outline"
+                labelPlacement="floating"
+                [counter]="true"
+                [maxlength]="35"
+                [(value)]="emailValue"
+                helperText="Enter a valid email"
+                errorText="Invalid email"
+                colorText="#FF00B8"
+                (valueChange)="onValueChangeEmail($event)"
+                [regexPattern]="regexEmail"
+            ></app-input-component>
+            <app-input-component
+                [label]="'Password'"
+                typeInput="password"
+                fill="outline"
+                labelPlacement="floating"
+                [counter]="true"
+                [maxlength]="20"
+                [(value)]="passwordValue"
+                helperText="Enter a password"
+                errorText="Missing characters"
+                colorText="#FF00B8"
+                (valueChange)="onValueChangePassword($event)"
+                [regexPattern]="regexPassword"
+            ></app-input-component>
+        </div>
+
+    </ion-content>
+
+    
+    <div class="cont-input">
+        <ion-checkbox 
+            (ionChange)="onCheckboxChange($event)"
+            labelPlacement="end"> <span class="txt-checkbox"> You will be a composer?</span></ion-checkbox>
+    </div>
+    <div class="cont-btn">
+        <button 
+        [disabled]="isValidEmail && isValidPassword && isValidUsername  ? false : true" 
+        class="btn-register"
+        (click)="onClick()"
+        [style]="isValidEmail && isValidPassword && isValidUsername ? 'opacity:1' : 'opacity:0.5'"
+        >Register</button>
+        <span routerLink="/login" class="txt-redirect">Already have an account?</span>
+    </div>
+</div>
+
+<app-message-bar 
+    [alertCode]="alertCode"
+    [alertMessage]="alertMessage"
+    [showAlert]="showAlert"
+></app-message-bar>

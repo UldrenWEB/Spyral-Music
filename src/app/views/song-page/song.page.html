@@ -1,0 +1,50 @@
+<ion-header class="fixed-color-header">
+    <ion-toolbar>
+      <ion-buttons slot="start">
+        <ion-back-button ></ion-back-button>
+      </ion-buttons>
+      <ion-title>{{currentSong.title}}</ion-title>
+    </ion-toolbar>
+</ion-header>
+<ion-content>
+    <div class="song-container">
+      <div class="image-container">
+        <img [src]="currentSong.image" alt="Portada de la canción">
+      </div>
+        <div class="song-info">
+          <h2>{{currentSong.title}}</h2>
+          <p>{{formattedArtist()}}</p>
+        </div>
+        <div class="player-controls">
+            
+            <button (click)="playPrevious()">
+                <ion-icon name="play-back-circle-outline"></ion-icon>
+            </button>
+            
+            <button (click)="togglePlayPause()">
+                <ion-icon *ngIf="isPlaying; else playIcon" name="pause-circle-outline"></ion-icon>
+                <ng-template #playIcon>
+                  <ion-icon name="play-circle-outline"></ion-icon>
+                </ng-template>
+              </button>
+    
+            <button (click)="playNext()">
+                <ion-icon  name="play-forward-circle-outline"></ion-icon>
+            </button>
+        </div>
+        <div class="progress-container">
+          <ion-range
+            min="0"
+            [max]="!duration ? 0 : duration"
+            [value]="currentProgress"
+            (ionChange)="onRangeChange($event)"
+            (ionInput)="onRangeInput($event)">
+          </ion-range>
+        
+          <div class="container-duration">
+            <span>{{ convertirSegundosAFormatoMinutos(currentProgress) }}</span>
+            <span>{{ convertirSegundosAFormatoMinutos(duration) }}</span>
+          </div>
+        </div>        
+    </div>
+</ion-content>

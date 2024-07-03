@@ -1,0 +1,187 @@
+@import '../../../theme/variables.scss';
+
+.cont-header {
+    margin-top: 1em;
+    display: flex;
+    align-items: center;
+    justify-content: center; 
+    width: 100%;
+}
+
+.btn-del{
+    margin-top: 0.5em !important;
+    z-index: 1;
+    top: 0;
+}
+
+.btn-save, .btn-del{
+    position: absolute;
+    width: 3.5em;
+    height: 3em;
+    right: 0;
+    background-color: none;
+    margin-right: 2em;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px 0 rgba(255, 255, 255, 0.2), 0 3px 10px 0 rgba(255, 255, 255, 0.19);
+    background-color: black;
+    margin-bottom: 10px;
+    &:active {
+        box-shadow: inset 0 2px 4px rgba(255, 255, 255, 0.5);
+    }
+}
+
+.txt-save{
+    font-family: $font-secondary;
+    font-size: 13px;
+}
+
+.title{
+    text-align: start;
+    margin-left: 20px;
+    font-family: $font-secondary
+}
+
+.container-user{
+    height: 100%;
+    width: 100%;
+}
+
+.container-artist{
+    width: 100%;
+    height: 100%;
+    padding-top: 0em;
+    text-align: start;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5em;
+}
+
+.container-input{
+    width: 100%;
+    height: 100%;
+    padding-top: 3em;
+    text-align: start;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5em;
+}
+
+.txt-artist{
+    padding: 0.5em;
+}
+
+.cont-select{
+    padding-left: 1.5em;
+    padding-right: 1.5em;
+}
+
+h2 {
+    text-align: center;
+    font-family: $font-new;
+
+}
+
+.container-image{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    height: 12em;
+    margin-top: 0em;
+
+    &:active{
+        opacity: 0.2;
+    }
+}
+
+.container-image img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    border-radius: 10px;
+}
+
+.cont-btn{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    height: 18%;
+    width: 100%;
+    gap: 1em;
+}
+
+.btn-edit{
+    background-color: $color-primary;
+    color: black;
+    border: 1px solid black;
+    border-radius: 18px;
+    padding: 1em 3em;
+    width: 60%;
+    font-size: 18px;
+    font-family: $font-primary;
+    transition: background-color 0.3s ease;
+    font-weight: bolder;
+
+    &:active{
+        opacity: 0.2;
+    }
+}
+
+
+.input{
+    overflow: scroll;
+    padding-bottom: 3em;
+}
+
+ion-toolbar{
+    --background:black;
+    padding-bottom: 10px;
+}
+
+ion-content{
+    --background: black;
+}
+
+ion-title {
+    flex: 1;
+    text-align: center; 
+    font-family: $font-new;
+    font-size: 28px;
+    color: $color-primary;
+    --background: black;
+}
+
+ion-icon {
+    color: $color-primary;
+    margin-left: auto;
+    font-size: 30px;
+}
+
+swiper-container {
+    width: 100%;
+    height: 100%;
+    --swiper-pagination-bullet-size: 8px;
+    --swiper-pagination-bullet-width: 8px;
+    --swiper-pagination-bullet-height: 8px;
+    --swiper-pagination-bullet-inactive-color: white;
+    --swiper-pagination-bullet-inactive-opacity: 0.2;
+    --swiper-pagination-bullet-opacity: 1;
+    --swiper-pagination-bullet-horizontal-gap: 4px;
+    --swiper-pagination-bullet-vertical-gap: 6px;
+    --swiper-pagination-color: #FF00B8;
+  }
+
+swiper-slide {
+    text-align: center;
+    font-size: 18px;
+    background: black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+ion-select{
+    --highlight-color-valid: #FF00B8;
+}
+  

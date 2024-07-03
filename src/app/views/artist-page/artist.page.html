@@ -1,0 +1,63 @@
+<div class="container">
+    <div class="cont-logo">
+        <img src="../../../assets/spiralLogo.png" alt="Logo" class="logo">
+        <span class="txtLogo">Spyral</span>
+    </div>
+    
+    <div class="cont-title">
+        <span class="txt-title">Welcome, your future is bright in Spyral.</span>
+    </div>
+
+    <div class="cont-input">
+        <app-input-component
+            [label]="'Artist name'"
+            fill="outline"
+            labelPlacement="floating"
+            [counter]="true"
+            [maxlength]="30"
+            [(value)]="artistnameValue"
+            helperText="Enter a valid artist name"
+            errorText="Invalid artist name"
+            colorText="#FF00B8"
+            (valueChange)="onValueChangeArtistname($event)"
+            [regexPattern]="regexArtistname"
+        ></app-input-component>
+
+        <div class="cont-select">
+            <ion-select 
+                aria-label="Genres"
+                placeholder="Select your genres"
+                [multiple]="true"
+                [(ngModel)]="selectedGenres"
+                name="selectedGenres"
+                >
+                <ion-select-option 
+                    *ngFor="let genre of genres"
+                    [value]="genre.id"  
+                >
+                {{ genre.description }}
+                </ion-select-option>
+            </ion-select>
+        </div>
+    </div>
+
+    <div class="cont-image-picker">
+        <div class="image-picker">
+            <h2 *ngIf="!selectImage">Select your artist image</h2>
+            <img *ngIf="selectImage" [src]="srcImage" alt="Artist Image">
+        </div>
+    </div>
+
+    <div class="cont-btn">
+        <button (click)="onClickCancel()" class="btn-cancel">Cancel</button>
+        <button (click)="onClick()" class="btn-register">Register</button>
+    </div>
+
+</div>
+
+
+<app-message-bar 
+    [alertCode]="alertCode"
+    [alertMessage]="alertMessage"
+    [showAlert]="showAlert"
+></app-message-bar>

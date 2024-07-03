@@ -1,0 +1,64 @@
+@import '../../../theme/variables.scss';
+
+.cont-header {
+    margin-top: 1em;
+    display: flex;
+    align-items: center;
+    justify-content: center; 
+    width: 100%;
+}
+
+.btn-add{
+    position: absolute;
+    width: 3em;
+    height: 3em;
+    right: 0;
+    background-color: none;
+    margin-right: 3em;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px 0 rgba(255, 255, 255, 0.2), 0 3px 10px 0 rgba(255, 255, 255, 0.19);
+    background-color: black;
+    margin-bottom: 10px;
+    &:active {
+        box-shadow: inset 0 2px 4px rgba(255, 255, 255, 0.5);
+    }
+}
+
+.cont-playlist {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); 
+    grid-gap: 0px;
+    width: 100%;
+    padding-bottom: 6em;
+}
+
+.title{
+    text-align: start;
+    margin-left: 20px;
+    font-family: $font-secondary
+}
+
+
+ion-toolbar{
+    --background:black;
+    padding-bottom: 10px;
+}
+
+ion-content{
+    --background: black;
+}
+
+
+  
+ion-title {
+    flex: 1;
+    text-align: center; 
+    font-family: $font-new;
+    font-size: 28px;
+    color: $color-primary;
+}
+
+ion-icon {
+    color: $color-primary;
+    margin-left: auto;
+}

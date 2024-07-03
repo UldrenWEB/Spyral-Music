@@ -1,0 +1,129 @@
+@import '../../../theme/variables.scss';
+
+.container{
+    height: 100vh;
+    justify-content: center;
+    align-items: center;
+    background-color: black;
+}
+
+.cont-logo{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5em;
+    margin-top: 1em;
+}
+
+.cont-title{
+    padding: 1em;
+    margin-top: 0em;
+    margin-bottom: 0em;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.4em;
+}
+
+.txt-title{
+    font-family: $font-primary;
+    font-size: 20px;
+    display: block;
+    text-align: center;
+}
+
+.txt-description{
+    font-family: $font-primary;
+    font-size: 15px;
+    color: rgba(255,255,255, 0.4);
+}
+
+.cont-select{
+    padding: 0em 1.35em;
+    margin-top: 0.5em;
+}
+
+.txtLogo{
+    color: rgba(255,255,255, 0.3);
+    font-family: $font-secondary;
+}
+
+.cont-input{
+    padding: 0em 1em;
+    gap: 1em;
+}
+
+.cont-btn {
+    width: 100%;
+    height: 20%;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    gap: 1em;
+    align-items: center;
+}
+
+.btn-register{
+    background-color: $color-primary;
+    color: black;
+    border: 1px solid black;
+}
+
+.btn-cancel{
+    background-color: black;
+    color: $color-primary;
+    border: 1px solid $color-primary;
+}
+
+.btn-cancel, .btn-register {
+    border-radius: 18px;
+    padding: 1em 1em;
+    width: 12em;
+    font-size: 15px;
+    font-family: $font-primary;
+    transition: background-color 0.3s ease;
+    font-weight: bolder;
+}
+
+.btn-register:active, .btn-cancel:active {
+    opacity: 0.4;
+}
+
+.cont-image-picker{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 1em;
+}
+
+.image-picker{
+    width: 11em;
+    height: 11em;
+    padding: 0.5em;
+    border: 3px dashed $color-primary;
+    border-radius: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    &:active{
+        opacity: 0.2;
+    }
+}
+
+img{
+    border-radius: 10px;
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+}
+
+h2{
+    text-align: center;
+    font-family: $font-new;
+}
+
+ion-select{
+    --highlight-color-valid: #FF00B8;
+}

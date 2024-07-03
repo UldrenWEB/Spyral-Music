@@ -1,0 +1,30 @@
+<div class="content-input">
+    <ion-input 
+        [fill]="fill"
+        [type]="typeInput"
+        [counter]="counter"
+        [maxlength]="maxlength"
+        [helperText]="helperText"
+        [errorText]="errorText"
+        [(ngModel)]="value"
+        [label]="label"
+        [labelPlacement]="labelPlacement"
+        (ngModelChange)="onChange($event)"
+        [pattern]="regexPattern"
+    ></ion-input>
+</div>
+
+<!-- <div>
+    <ion-input 
+        [helperText]="helperText"
+        [errorText]="errorText"
+        [type]="typeInput"
+        [counter]="counter"
+        [maxlength]="maxlength"
+        [(ngModel)]="value"
+        [label]="label"
+        [labelPlacement]="labelPlacement"
+        email
+        (ionChange)="onChange($event)">
+    </ion-input>
+</div> -->

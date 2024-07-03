@@ -1,0 +1,16 @@
+<ion-card>
+    <ion-item lines="none" button (click)="onClick()">
+        <ion-thumbnail slot="start">
+        <img class="image-item" [src]="imageSrc" alt="Image">
+        </ion-thumbnail>
+        <ion-label class="ion-text-wrap">
+        <h2>{{title}}</h2>
+        <p>{{formateddArtist()}}</p>
+        </ion-label>
+        <ion-buttons slot="end">
+        <ion-button (click)="presentOptions($event)">
+            <ion-icon slot="icon-only" name="ellipsis-vertical-outline"></ion-icon>
+        </ion-button>
+        </ion-buttons>
+    </ion-item>
+</ion-card>

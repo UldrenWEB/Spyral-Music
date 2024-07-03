@@ -1,0 +1,12 @@
+
+<div class="content-alert"  *ngIf="visible">
+    <div class="alert" [ngClass]="{
+        'green': alertCode === 0,
+        'red': alertCode === 1,
+        'yellow': alertCode === 3,
+        'slide-in': visible, 'slide-out': !visible
+      }">
+        {{ alertMessage }}
+    </div>
+
+</div>

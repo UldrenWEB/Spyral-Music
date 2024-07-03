@@ -1,0 +1,12 @@
+<ion-card (click)="onRedirect()">
+    <div class="container-image">
+        <img alt="Image" [src]="imageSrc" />
+    </div>
+    <ion-card-header>
+      <ion-card-title>{{truncateText(title, 15)}}</ion-card-title>
+    </ion-card-header>
+  
+    <ion-card-content>
+      {{formattedArtist()}}
+    </ion-card-content>
+</ion-card>

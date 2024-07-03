@@ -1,2 +1,30 @@
 // For information on how to create your own theme, please see:
 // http://ionicframework.com/docs/theming/
+@font-face {
+    font-family: 'Poppins';
+    src: url('../fonts/Poppins-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Recursive';
+    src: url('../fonts/Recursive_Casual-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Albaya';
+    src: url('../fonts/AbhayaLibre-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+$font-primary: 'Poppins';
+$font-secondary: 'Recursive';
+$font-new: 'Albaya';
+$color-primary: #FF00B8;
+
+:root {
+    --ion-color-custom: #FF00B8;
+}

@@ -1,0 +1,54 @@
+<div class="container">
+
+    <div class="container-logo">
+        <img src="../../../assets/spiralLogo.png" alt="Logo" class="logo">
+        <span class="txtLogo">Spyral</span>
+    </div>
+
+    <div class="container-title">
+        <span class="txtLogin">Login</span>
+        <span class="txtDescription">Enter your email and password to log in!</span>
+    </div>
+
+    <ion-content class="custom-ion-content">
+        <div class="container-input">
+            <app-input-component
+                [label]="'Email'"
+                fill="outline"
+                labelPlacement="floating"
+                [counter]="true"
+                [maxlength]="35"
+                [(value)]="emailValue"
+                helperText="Enter a valid email"
+                errorText="Invalid Email"
+                colorText="#FF00B8"
+                (valueChange)="onValueChangeEmail($event)"
+                [regexPattern]="regexEmail"
+            ></app-input-component>
+        
+            <app-input-component
+                [label]="'Password'"
+                typeInput="password"
+                fill="outline"
+                labelPlacement="floating"
+                [counter]="true"
+                [maxlength]="20"
+                [(value)]="passwordValue"
+                helperText="Enter a password"
+                errorText="Missing characters"
+                colorText="#FF00B8"
+                (valueChange)="onValueChangePassword($event)"
+                [regexPattern]="regexPassword"
+            ></app-input-component>
+        </div>
+
+    </ion-content>
+
+
+    <div class="container-redirect">
+        <button [disabled]="isValidEmail && isValidPassword ? false : true" class="btn-login" [style]="isValidEmail && isValidPassword ? 'opacity:1' : 'opacity:0.5'" (click)="onClick()">Login</button>
+        <span (click)="onRedirect()" class="txt-redirect">Dont'n you have an account yet?</span>
+    </div>
+</div>
+
+<app-message-bar [alertCode]="alertCode" [alertMessage]="alertMessage" [showAlert]="showAlert"></app-message-bar>

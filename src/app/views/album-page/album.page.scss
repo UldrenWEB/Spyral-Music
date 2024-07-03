@@ -1,0 +1,57 @@
+@import '../../../theme/variables.scss';
+
+.cont-header{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding-right: 3em;
+}
+
+.container-image{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 10em;
+    height: 10em;
+    margin-top: 1em;
+  }
+
+  .container-image img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    border-radius: 10px;
+  }
+
+  .album-info {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  .album-info h2 {
+    font-size: 26px;
+    margin-bottom: 10px;
+    font-family: $font-new;
+  }
+  
+  .album-info p {
+    font-size: 18px;
+    font-family: $font-new;
+    color: rgba($color: #ffffff, $alpha: 0.4);
+  }
+  
+  .header{
+    background-color: black;
+  }
+
+ion-toolbar {
+    --background: black;
+}
+
+.container-songs{
+    background-color: black;
+    overflow-x: scroll;
+    padding-bottom: 10em;
+}

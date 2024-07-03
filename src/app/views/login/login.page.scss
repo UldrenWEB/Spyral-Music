@@ -1,0 +1,77 @@
+@import '../../../theme/variables.scss';
+
+.container{
+    height: 100vh;
+    justify-content: center;
+    align-items: center;
+    background-color: black;
+}
+
+.container-logo{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5em;
+    margin-top: 3em;
+}
+
+.container-title{
+    padding: 1em;
+    margin-top: 2em;
+    margin-bottom: 2em;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.container-redirect{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.txtLogin{
+    font-family: $font-new;
+    font-size: 35px;
+    display: block;
+}
+
+.txtDescription{
+    font-family: $font-primary;
+    font-size: 15px;
+    color: rgba(255,255,255, 0.4);
+}
+
+.txtLogo{
+    color: rgba(255,255,255, 0.3);
+    font-family: $font-secondary;
+}
+
+.btn-login{
+    margin-top: 4em;
+    background-color: $color-primary;
+    padding: 1em 2em 1em 2em;
+    font-family: $font-primary;
+    font-size: 16px;
+    border-radius: 10px;
+    margin-bottom: 1em;
+}
+.txt-redirect{
+    font-family: $font-primary;
+    color: $color-primary;
+    text-decoration: underline;
+    font-weight: bold;
+}
+
+.container-input{
+    padding: 0em 1em;
+    overflow: scroll;
+}
+
+.custom-ion-content {
+    height: 14em;
+}
+
+ion-content {
+    --background: black;
+  }
