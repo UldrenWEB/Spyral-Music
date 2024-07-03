@@ -8,15 +8,15 @@ import { AuthStorageService } from '../service/AuthStorage';
 @Injectable({
   providedIn: 'root'
 })
-export class AuthGuard implements CanActivate {
+export class AuthGuard{
 
   constructor(private authStorageService: AuthStorageService, private router: Router) { }
 
   async canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Promise<boolean | UrlTree> {
-    const token = await this.authStorageService.getToken();
-    if (token) {
+    // const token = await this.authStorageService.getToken();
+    if (true) {
       return true;
     } else {
       return this.router.createUrlTree(['/login']);

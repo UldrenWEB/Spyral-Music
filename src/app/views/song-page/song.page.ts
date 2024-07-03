@@ -19,6 +19,7 @@ export class SongPage implements OnInit, OnDestroy, AfterViewInit {
   durationSubscription?: Subscription;
   songSubscription?: Subscription;
   isPlayingSubscription?: Subscription;
+  isLiked: boolean = false;
 
   constructor(
         private playerService: MusicPlayerService,
@@ -26,6 +27,7 @@ export class SongPage implements OnInit, OnDestroy, AfterViewInit {
         private cdr : ChangeDetectorRef
     ) {}
 
+    //TODO: CARGAR AQUI EL LIKED!!! PARA SABER SI ESTA LIKED O NO
   ngOnInit(): void {
     this.currentSong = this.playerService.getCurrentSong();
 
@@ -89,6 +91,21 @@ export class SongPage implements OnInit, OnDestroy, AfterViewInit {
 
   updateView(): void {
     this.cdr.detectChanges();
+  }
+
+  disableLike : boolean = true;
+  toggleLike(){
+    if(!this.disableLike) return;
+
+    console.log('ToggleLike')
+    this.disableLike = false;
+
+    this.isLiked = !this.isLiked
+    setTimeout(() => {
+      this.disableLike = true;
+    }, 2000)
+
+
   }
 
   formattedArtist = (): string => {

@@ -25,16 +25,10 @@ export class ProfilePage implements OnInit{
     setupKeyboardListener() {
         if (this.platform.is('capacitor')) {
           Keyboard.addListener('keyboardWillShow', (info) => {
-            // Asegura que el elemento exista y sea del tipo HTMLElement antes de modificar su estilo
             const containerInput = document.querySelector('.container-input');
             if (containerInput instanceof HTMLElement) {
-              // Opción 1: Usar scrollIntoView para asegurar que el input sea visible
-              // Esto hará que el navegador desplace el contenedor para que el input sea visible
-              // Nota: Considera la necesidad de un enfoque más específico si tienes múltiples inputs
               containerInput.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
       
-              // Opción 2: Ajustar el padding-bottom basado en la altura del teclado
-              // Esto puede ser útil si tienes un control más fino sobre el comportamiento de desplazamiento
               containerInput.style.paddingBottom = `${info.keyboardHeight}px`;
             }
           });
@@ -42,7 +36,6 @@ export class ProfilePage implements OnInit{
           Keyboard.addListener('keyboardWillHide', () => {
             const containerInput = document.querySelector('.container-input');
             if (containerInput instanceof HTMLElement) {
-              // Restablecer el padding-bottom cuando el teclado se oculte
               containerInput.style.paddingBottom = '0';
             }
           });
@@ -116,11 +109,15 @@ export class ProfilePage implements OnInit{
     }
 
 
-    onClick = () => {
+    onSaveUser = () => {
        if(!this.isValidEmail || !this.isValidPassword || !this.isValidUsername) return;
 
        this.#showMessageBar('User edited', 0);
        return;
+    }
+
+    onSaveArtist = () => {
+      
     }
 
     onSelectImage(){

@@ -34,7 +34,6 @@ export class CallService {
             return result;
 
         } catch (error) {
-
             console.error('Error en la llamada a la API', error);
             return {message: {description: 'Hubo un error al hacer fetch', code: 1}}
         

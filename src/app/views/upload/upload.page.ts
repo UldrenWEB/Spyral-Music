@@ -303,7 +303,7 @@ export class UploadPage implements OnInit {
         console.log('El resultado de las fotos es vacío');
       }
     } catch (error) {
-      console.error('Error seleccionando la imagen: ', error);
+      // console.error('Error seleccionando la imagen: ', error);
     }
   }
     

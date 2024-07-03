@@ -3,7 +3,6 @@ import { Router } from '@angular/router';
 import { Keyboard } from '@capacitor/keyboard';
 import { Platform } from '@ionic/angular';
 import { AuthService } from 'src/app/service/AuthServices';
-import { AuthStorageService } from 'src/app/service/AuthStorage';
 import { CallService } from 'src/app/service/CallService';
 import { StorageService } from 'src/app/service/StorageService';
 
@@ -21,7 +20,6 @@ export class LoginPage implements OnInit{
       private authService: AuthService,
       private platform: Platform,
       private callService: CallService,
-      private authStorageService: AuthStorageService
     ) {}
   
   async ngOnInit(): Promise<void> {
@@ -115,8 +113,12 @@ export class LoginPage implements OnInit{
   }
 
   onRedirect = () => {
-    
-    this.router.navigate(['/register'])
+    this.authService.setUserRole(1);
+    this.router.navigate(['/tabs'])
+
+
+
+    // this.router.navigate(['/register'])
 
   }
   

@@ -15,6 +15,8 @@
           <h2>{{currentSong.title}}</h2>
           <p>{{formattedArtist()}}</p>
         </div>
+
+        
         <div class="player-controls">
             
             <button (click)="playPrevious()">
@@ -45,6 +47,13 @@
             <span>{{ convertirSegundosAFormatoMinutos(currentProgress) }}</span>
             <span>{{ convertirSegundosAFormatoMinutos(duration) }}</span>
           </div>
-        </div>        
+        </div>  
+
+        <div class="cont-likes">
+          <button (click)="toggleLike()">
+            <ion-icon [name]="isLiked ? 'heart' : 'heart-outline'"></ion-icon>
+        </button>
+          <h3><span class="txt-likes">10</span></h3>
+        </div>
     </div>
 </ion-content>
