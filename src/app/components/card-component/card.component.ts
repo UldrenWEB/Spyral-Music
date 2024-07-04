@@ -2,6 +2,7 @@ import { CommonModule } from "@angular/common";
 import { Component, Input } from "@angular/core";
 import { Router } from "@angular/router";
 import { ActionSheetController, IonicModule } from "@ionic/angular";
+import { Song } from "src/app/interfaces/song";
 import { MusicPlayerService } from "src/app/service/MusicPlayerService";
 import { SongService } from "src/app/service/SongService";
 import { getFormattedArtists } from "src/app/service/formattedArtist";
@@ -29,6 +30,7 @@ export class CardComponent{
     @Input() artists: string[] = [];
     @Input() imageSrc: string = '';
     @Input() url_song: string = '';
+    @Input() index: number = 0;
 
 
     maxLength: number = 30;
@@ -62,35 +64,18 @@ export class CardComponent{
   }
 
   onClick = () => {
-    const song = [
-      {
-        title: 'El amor',
-          artists: [
-            'Prueba',
-            'Hola',
-            'Saiko',
-            'Erika Tourt'
-          ],
-          image: 'https://i.scdn.co/image/ab6761610000e5ebfe7dbde5b6f002aeac5aeeca',
-          song: 'https://p.scdn.co/mp3-preview/ca130c64a85c28fa66d947f9900664b75b133d71?cid=cfe923b2d660439caf2b557b21f31221',
-      
-      },
-      {
-        title: 'REINA',
-        artists: [
-          'Uldren Gedde',
-          'Mora',
-          'Saiko',
-          'Erika Tourt'
-        ],
-        image: 'https://i.scdn.co/image/ab67616d00001e0257e9af9d4640f332880ffa5e',
-        song: 'https://p.scdn.co/mp3-preview/90073b480fe270ea3e3b61eec49edf38805eedd7?cid=cfe923b2d660439caf2b557b21f31221',
-    },
-  ]
+    const song: Song = {
+      artists: this.artists,
+      image: this.imageSrc,
+      song: this.url_song,
+      title: this.title
+    }
+
+    console.log('AQUIII -<> ', song)
     this.playerService.stop();
-    this.songService.setSongs([]);
-    this.songService.setSong(song[1]);
-    this.playerService.setPlaylist(song);
+    this.songService.setSong(song);
+    this.playerService.setPlaylist(this.songService.getSongs());
+    this.playerService.setCurrentIndex(this.index);
     this.router.navigate(['/play-song']);
   }
 

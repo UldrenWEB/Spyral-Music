@@ -42,8 +42,10 @@
             </div>
         </div>
 
-        <div class="cont-btn">
+        <div (click)="onClick()" class="cont-btn">
             <button class="btn-edit">Upload Song</button>
           </div>
     </div>
 </div>
+
+<app-message-bar [alertCode]="alertCode" [alertMessage]="alertMessage" [showAlert]="showAlert"></app-message-bar>

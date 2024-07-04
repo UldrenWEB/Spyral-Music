@@ -20,6 +20,7 @@
     margin-top: 1em;
     padding-left: 1.5em;
     padding-right: 1.5em;
+    margin-bottom: 1em;
 }
 
 .txt{
@@ -41,4 +42,32 @@ ion-searchbar::part(input) {
 --placeholder-color: #ccc;
 --placeholder-font-style: italic;
 }
+
+.btn-more{
+    margin-top: 0.5em;
+    background-color: $color-primary;
+    padding: 1em 2em 1em 2em;
+    font-family: $font-primary;
+    font-size: 16px;
+    border-radius: 10px;
+    margin-bottom: 1em;
+    &:active{
+        opacity: 0.6;
+    }
+}
+
+.content{
+    background-color: black;
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow-y: scroll;
+    padding-bottom: 10em;
+}
+
+ion-content {
+    --background: black;
+  }
 

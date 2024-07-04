@@ -1,0 +1,14 @@
+<h2 mat-dialog-title>Your playlist {{data.name}}</h2>
+<mat-dialog-content class="custom-modal-container">
+  <p>Want to add a new playlist?</p>
+  <mat-form-field class="custom-input">
+    <mat-label>Playlist Name</mat-label>
+    <input matInput [(ngModel)]="playlist" placeholder="Enter playlist name"/>
+  </mat-form-field>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">No Thanks</button>
+  <button mat-button [mat-dialog-close]="playlist" cdkFocusInitial>Ok</button>
+</mat-dialog-actions>
+
+  

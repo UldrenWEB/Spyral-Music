@@ -1,8 +1,8 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
+import { NavigationEnd, Router } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
-import { Subscription } from 'rxjs';
+import { Subscription, filter } from 'rxjs';
 import { Song } from 'src/app/interfaces/song';
 import { MusicPlayerService } from 'src/app/service/MusicPlayerService';
 import { SongService } from 'src/app/service/SongService';
@@ -24,23 +24,47 @@ export class MiniPlayerComponent implements OnInit, OnDestroy {
   currentSongSubscription?: Subscription;
   isPlayingSubscription?: Subscription;
 
+  view: boolean = true;
+  private routerSubscription?: Subscription;
+
   constructor(
         private playerService: MusicPlayerService,
         private songService: SongService, 
-        private router: Router
+        private router: Router,
+        private cdr: ChangeDetectorRef,
     ) {}
 
   ngOnInit(): void {
-    this.currentSongSubscription = this.songService.getSong().subscribe(song => {
-        this.currentSong = song;
+
+    const currentUrl = this.router.url;
+    this.view = currentUrl !== '/play-song';
+    this.updateView();
+
+    this.routerSubscription = this.router.events
+      .pipe(filter((event: any) => event instanceof NavigationEnd))
+      .subscribe((event: any) => {
+        this.view = event.url !== '/play-song';
+        this.updateView()
       });
+
+    this.currentSongSubscription = this.playerService.currentSong$.subscribe(song => {
+      if (song) {
+        this.currentSong = song;
+        this.updateView();
+      }
+    });
 
       this.isPlayingSubscription = this.playerService.isPlaying$.subscribe(isPlaying => {
         this.isPlaying = isPlaying;
       })
   }
 
+  updateView(){
+    this.cdr.detectChanges();
+  }
+
   ngOnDestroy(): void {
+    this.routerSubscription?.unsubscribe();
     this.currentSongSubscription?.unsubscribe();
     this.isPlayingSubscription?.unsubscribe();
   }

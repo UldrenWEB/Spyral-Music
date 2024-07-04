@@ -12,33 +12,46 @@ import endpoints  from '../config/endpoints.json'
 export class CallService {
     constructor(private loaderService: LoaderService, private authStorageService: AuthStorageService){}
 
-    call =  async ({method, body = null, isToken = false, endPoint} : {method: RequestMethod, body: Object | null, isToken : Boolean, endPoint: EndPoints }) => {
+    call = async ({ method, body = null, isToken = false, endPoint } : { method: RequestMethod, body: Object | null , isToken: Boolean, endPoint: EndPoints}) => {
         this.loaderService.show();
-
+    
         try {
-            // Aquí iría tu lógica de fetch real, por ejemplo:
             const token = isToken ? await this.authStorageService.getToken() : null;
             const auth = { Authorization: `Bearer ${token}` };
-            const response = await fetch(`${base_url}${endpoints[endPoint]}`, {
+    
+            let url = `${base_url}${endpoints[endPoint]}`;
+            if (method.toUpperCase() === 'GET' && body && Object.keys(body).length > 0) {
+                console.log('Entro aqui')
+                const queryParams = Object.entries(body)
+                    .map(([key, value]) => `${encodeURIComponent(key)}=${encodeURIComponent(value)}`)
+                    .join('&');
+                url = `${url}${queryParams}`;
+            }
+            console.log(url)
+            const fetchOptions: RequestInit = {
                 method: method.toUpperCase(),
                 headers: {
                     'Content-Type': 'application/json',
                     ...(token && auth)
-                },
-                body: body ? JSON.stringify(body) : null
-            });
-
+                }
+            };
+    
+            if (method.toUpperCase() !== 'GET' && body) {
+                fetchOptions.body = JSON.stringify(body);
+            }
+    
+            const response = await fetch(url, fetchOptions);
+    
             const result = await response.json();
-
-            console.log(`Aqui resultado del fetch ->${result}`)
+            console.log(`Resultado del fetch ->`, result);
             return result;
-
+    
         } catch (error) {
             console.error('Error en la llamada a la API', error);
-            return {message: {description: 'Hubo un error al hacer fetch', code: 1}}
-        
+            return { message: { description: 'Hubo un error al hacer fetch', code: 1 } };
+    
         } finally {
             this.loaderService.hide();
         }
-    }
+    };
 }

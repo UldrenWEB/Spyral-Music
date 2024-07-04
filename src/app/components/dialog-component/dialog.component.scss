@@ -1,0 +1,16 @@
+@import '../../../theme/variables.scss';
+
+.custom-modal-container .mat-dialog-container {
+    background-color: #333; /* Gris oscuro */
+    box-shadow: 0 4px 6px rgba(0,0,0,0.2); /* Sombra */
+  }
+  
+  /* Input personalizado */
+  .custom-input .mat-form-field {
+    background-color: #000; /* Fondo negro */
+    border: 1px solid #fff; /* Bordes blancos */
+  }
+  
+  .custom-input input.mat-input-element {
+    color: #fff; /* Texto blanco */
+  }

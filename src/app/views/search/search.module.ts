@@ -5,13 +5,17 @@ import { FormsModule } from '@angular/forms';
 import { SearchPage } from './search.page';
 
 import { SearchPageRoutingModule } from './search-routing.module';
+import { MessageBarComponent } from 'src/app/components/message-bar/message-bar.component';
+import { CardComponent } from 'src/app/components/card-component/card.component';
 
 @NgModule({
   imports: [
     IonicModule,
     CommonModule,
     FormsModule,
-    SearchPageRoutingModule
+    SearchPageRoutingModule,
+    MessageBarComponent,
+    CardComponent
   ],
   declarations: [SearchPage]
 })

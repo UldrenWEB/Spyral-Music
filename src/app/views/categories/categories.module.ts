@@ -6,6 +6,9 @@ import { CategoriesPage } from './categories.page';
 
 import { CategoriesPageRoutingModule} from './categoriers-routing.module';
 import { AlbumComponent } from 'src/app/components/album-component/album.component';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
 
 @NgModule({
   imports: [
@@ -13,8 +16,12 @@ import { AlbumComponent } from 'src/app/components/album-component/album.compone
     CommonModule,
     FormsModule,
     CategoriesPageRoutingModule,
-    AlbumComponent
+    AlbumComponent,
+    MatFormFieldModule, 
+    MatInputModule, 
+    FormsModule, 
+    MatButtonModule
   ],
-  declarations: [CategoriesPage]
+  declarations: [CategoriesPage],
 })
 export class CategoriesPageModule {}

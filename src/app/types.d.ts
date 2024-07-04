@@ -1,5 +1,5 @@
 type RequestMethod = 'post' | 'get' | 'delete' | 'put';
-type EndPoints = 'login'
+type EndPoints = 'login' | 'songByDuration' | 'songByName' | 'songByArtist' | 'songByGenre'
 
 
 export {

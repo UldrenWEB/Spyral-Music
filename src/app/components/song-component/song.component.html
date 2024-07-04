@@ -1,12 +1,12 @@
 
-<div class="container">
+<div *ngIf="view" class="container">
   <button (click)="navigateToSong()">
     <div *ngIf="currentSong" class="mini-player">
       <div class="image-container">
         <img [src]="currentSong.image" alt="Portada de la canción">
       </div>
       <div class="song-info">
-        <h3>{{ truncateTitle('PROBANDO TITULO DE LA CANCION PARA VER' || '', 7) }}</h3>
+        <h3>{{ truncateTitle(currentSong.title || '', 7) }}</h3>
       </div>
       <div class="controls">
         <button (click)="playPrevious(); $event.stopPropagation()" class="control-button">

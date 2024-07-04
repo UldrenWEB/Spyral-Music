@@ -15,4 +15,29 @@
         <ion-select-option value="duration"><span class="txt">Duration</span></ion-select-option>
       </ion-select>
   </div>
+  <div class="content">
+    <div
+      style="width: 100%;"
+      *ngFor="let song of songs; let i = index"
+      >
+      <app-card-component
+          [imageSrc]="song.image"    
+          [title]="song.title"
+          [artists]="song.artists"
+          [url_song]="song.song"
+          [index]="i"
+      ></app-card-component>
+  </div>
+    <button (click)="clickSeeMore()" *ngIf="isSong" class="btn-more">
+      See more
+    </button>
+  </div>
 </div>
+
+
+<app-message-bar 
+  [alertCode]="alertCode"
+  [alertMessage]="alertMessage"
+  [showAlert]="showAlert"
+  >
+</app-message-bar>

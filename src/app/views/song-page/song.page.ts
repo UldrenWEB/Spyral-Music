@@ -11,23 +11,22 @@ import { getFormattedArtists } from "src/app/service/formattedArtist";
   styleUrls: ['song.page.scss']
 })
 export class SongPage implements OnInit, OnDestroy, AfterViewInit {
-  currentSong: Song  = {};
   isPlaying: boolean = false;
   currentProgress: number = 0;
   duration: number = 0;
   timeUpdateSubscription?: Subscription;
   durationSubscription?: Subscription;
-  songSubscription?: Subscription;
+  currentSong: Song = {};
+  currentSongSubscription?: Subscription;
   isPlayingSubscription?: Subscription;
   isLiked: boolean = false;
 
   constructor(
-        private playerService: MusicPlayerService,
-        private songService: SongService,
-        private cdr : ChangeDetectorRef
-    ) {}
+    private playerService: MusicPlayerService,
+    private songService: SongService,
+    private cdr: ChangeDetectorRef
+  ) {}
 
-    //TODO: CARGAR AQUI EL LIKED!!! PARA SABER SI ESTA LIKED O NO
   ngOnInit(): void {
     this.currentSong = this.playerService.getCurrentSong();
 
@@ -39,19 +38,23 @@ export class SongPage implements OnInit, OnDestroy, AfterViewInit {
       this.duration = duration;
     });
 
-    this.songSubscription = this.songService.getSong().subscribe(song => {
+    this.currentSongSubscription = this.playerService.currentSong$.subscribe(song => {
+      if (song) {
         this.currentSong = song;
+        this.updateView();
+      }
     });
 
     this.isPlayingSubscription = this.playerService.isPlaying$.subscribe(isPlaying => {
-        this.isPlaying = isPlaying;
-    })
+      this.isPlaying = isPlaying;
+    });
   }
 
   ngOnDestroy(): void {
     this.timeUpdateSubscription?.unsubscribe();
     this.durationSubscription?.unsubscribe();
-    this.songSubscription?.unsubscribe();
+    this.currentSongSubscription?.unsubscribe();
+    this.isPlayingSubscription?.unsubscribe();
   }
 
   ngAfterViewInit(): void {
@@ -93,19 +96,15 @@ export class SongPage implements OnInit, OnDestroy, AfterViewInit {
     this.cdr.detectChanges();
   }
 
-  disableLike : boolean = true;
-  toggleLike(){
-    if(!this.disableLike) return;
+  disableLike: boolean = true;
+  toggleLike() {
+    if (!this.disableLike) return;
 
-    console.log('ToggleLike')
     this.disableLike = false;
-
-    this.isLiked = !this.isLiked
+    this.isLiked = !this.isLiked;
     setTimeout(() => {
       this.disableLike = true;
-    }, 2000)
-
-
+    }, 2000);
   }
 
   formattedArtist = (): string => {

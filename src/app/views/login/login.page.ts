@@ -106,8 +106,7 @@ export class LoginPage implements OnInit{
 
     const data = result['data'];
 
-    console.log(data)
-    
+    //Cambiar el rol
     this.storageService.set('token', data.token)
     this.storageService.set('userI', data.userId)
     this.authService.setUserRole(1);

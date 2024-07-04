@@ -1,6 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { File } from '@awesome-cordova-plugins/file/ngx';
-import { Filesystem } from "@capacitor/filesystem";
+import { Directory, Filesystem } from "@capacitor/filesystem";
 import { Camera, CameraResultType, CameraSource, Photo } from '@capacitor/camera';
 import { FilePicker } from "@capawesome/capacitor-file-picker";
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
@@ -21,6 +21,9 @@ export class UploadPage implements OnInit {
     selectAudio: boolean = false;
     nameAudio: string = '';
     srcImage: SafeResourceUrl | undefined;
+    duration: number = 0;
+    imageBlob: Blob | null = null;
+    audioBlob: Blob | null = null;
     selectedGenres: string[] = [];
     showAlert: boolean = false;
     alertMessage: string = '';
@@ -62,153 +65,10 @@ export class UploadPage implements OnInit {
     }, 3000);
   }
 
-    onValueChangeSongname(newValue: string){
-        this.songName = newValue;
-        this.isValidSongname = new RegExp(this.regexSongname).test(newValue);
-    }
-
-    // selectFile() {
-    //     let multiple_selection = false;
-    //     let ext = ["audio/*"];
-    //     let formData = new FormData();
-    
-    //     FileSelector.fileSelector({
-    //         multiple_selection: multiple_selection,
-    //         ext: ext
-    //     }).then(selectedFile => {
-    //         console.log(selectedFile)
-    //         if (!selectedFile || !selectedFile.paths || selectedFile.paths.length === 0) {
-    //             console.log("No se seleccionó ningún archivo de audio.");
-    //             return;
-    //         }
-    
-    //         if (selectedFile.paths.length > 1) {
-    //             console.log("Se seleccionaron múltiples archivos. Se esperaba seleccionar solo uno.");
-    //             return;
-    //         }
-    
-    //         let fileName = '';
-    
-    //         if (this.platform.is("android")) {
-    //             fetch(selectedFile.paths[0])
-    //                 .then(r => r.blob())
-    //                 .then(file => {
-    //                     fileName = selectedFile.original_names[0] + selectedFile.extensions[0];
-    //                     formData.append("myfile[]", file, fileName);
-    //                     this.nameAudio = fileName;
-    //                     console.log("Nombre del archivo seleccionado:", fileName);
-    //                 })
-    //                 .catch(error => console.log("Error al procesar el archivo en Android:", error));
-    //         } else if (this.platform.is("ios")) {
-    //             fetch(selectedFile.paths[0])
-    //                 .then(r => r.blob())
-    //                 .then(file => {
-    //                     fileName = selectedFile.original_names[0] + selectedFile.extensions[0];
-    //                     formData.append("myfile[]", file, fileName);
-    //                     this.nameAudio = fileName;
-    //                     console.log("Nombre del archivo seleccionado:", fileName);
-    //                 })
-    //                 .catch(error => console.log("Error al procesar el archivo en iOS:", error));
-    //         } else {
-    //             FileSelector.addListener("onFilesSelected", (data: FileList) => {
-    //                 if (data.length > 1) {
-    //                     console.log("Se seleccionaron múltiples archivos. Se esperaba seleccionar solo uno.");
-    //                 } else {
-    //                     const file = data.item(0);
-    //                     if (file) {
-    //                         fileName = file.name;
-    //                         formData.append("myfile[]", file, fileName);
-    //                         this.nameAudio = fileName;
-    //                         console.log("Nombre del archivo seleccionado:", fileName);
-    //                     }
-    //                 }
-    //             });
-    //         }
-
-    //         console.log('Se selecciono el archivo', fileName)
-    //     }).catch(error => {
-    //         console.log("Error al seleccionar el archivo:", error);
-    //     });
-    // }
-    
-  //  selectFile() {
-
-  //   this.fileChooser.open()
-  //       .then(uri => {
-  //           console.log('Archivo seleccionado:', uri);
-  //           this.getFileName(uri);
-  //       })
-  //       .catch(error => console.log(`Hubo un error al intentar seleccionar un audio. ${error}`))
-  //   }
-
-
-  //   getFileName(filePath: string) {
-  //       console.log('Iniciando getFileName con filePath:', filePath);
-      
-  //       this.filePath.resolveNativePath(filePath).then((nativeFilePath) => {
-  //         console.log('Ruta nativa del archivo:', nativeFilePath);
-      
-  //         this.file.resolveLocalFilesystemUrl(nativeFilePath).then(fileEntry => {
-  //           console.log('Archivo resuelto:', fileEntry);
-      
-  //           fileEntry.getMetadata(metadata => {
-  //             console.log('Metadata del archivo obtenida:', metadata);
-  //             console.log('Nombre del archivo:', fileEntry.name);
-  //             this.convertFileToBlob(nativeFilePath, fileEntry.name);
-  //           }, error => {
-  //             console.log('Error al obtener metadata del archivo:', JSON.stringify(error));
-  //           });
-      
-  //         }).catch(error => {
-  //           console.log('Hubo un error al resolver la URL del archivo:', JSON.stringify(error));
-  //         });
-      
-  //       }).catch(error => {
-  //         console.log('Hubo un error al resolver la ruta nativa del archivo:', JSON.stringify(error));
-  //       });
-  //     }
-      
-
-  //     convertFileToBlob(filePath: string, fileName: string) {
-  //       this.file.resolveLocalFilesystemUrl(filePath).then(fileEntry => {
-  //         (fileEntry as any).file((file: any) => {
-  //           console.log('Se empezó a leer el archivo');
-  //           console.log('Tipo de archivo:', file.type);
-            
-  //           // Depuración: Mostrar la ruta y el nombre del archivo
-  //           console.log('Ruta del archivo:', filePath);
-  //           console.log('Nombre del archivo:', fileName);
-      
-  //           // Leer el archivo como ArrayBuffer usando el plugin File
-  //           const directoryPath = filePath.substring(0, filePath.lastIndexOf('/'));
-  //           const fileOnlyName = filePath.substring(filePath.lastIndexOf('/') + 1);
-      
-  //           this.file.readAsArrayBuffer(directoryPath, fileOnlyName)
-  //             .then((arrayBuffer: ArrayBuffer) => {
-  //               const blob = new Blob([arrayBuffer], { type: file.type });
-  //               this.uploadFile(blob, fileName);
-  //               this.nameAudio = 'Se ha seleccionado correctamente el archivo';
-  //             })
-  //             .catch(error => {
-  //               console.log('Error al leer el archivo como ArrayBuffer:', JSON.stringify(error));
-  //             });
-      
-  //         }, (error: any) => {
-  //           console.log('Error al obtener el archivo:', JSON.stringify(error));
-  //         });
-  //       }).catch(error => console.log(`Hubo un error al resolver la URL del archivo ${JSON.stringify(error)}`));
-  //     }
-      
-      
-      
-
-  //     uploadFile(blob: Blob, fileName: string) {
-  //       const formData = new FormData();
-  //       formData.append('file', blob, fileName);
-    
-  //       // Aquí puedes implementar la lógica para subir el archivo
-  //       console.log('Se subió el archivo correctamente:', fileName);
-  //     }
+  onValueChangeSongname(newValue: string){
+    this.songName = newValue;
+    this.isValidSongname = new RegExp(this.regexSongname).test(newValue);
+  }
 
 
   async selectFile() {
@@ -219,21 +79,29 @@ export class UploadPage implements OnInit {
       });
 
       if (result.files.length > 0) {
-        const filePath = result.files[0].path || "";
-        const fileType = result.files[0].mimeType;
+        const data = result.files[0];
+
+        const filePath = data.path || "";
+        const fileType = data.mimeType;
+
+        this.nameAudio = data.name;
+        this.duration = data.duration || 0;
+        this.selectAudio = true;
 
         const fileData = await Filesystem.readFile({
           path: filePath
         });
 
         const blob = this.base64ToBlob(typeof fileData.data === 'string' ? fileData.data : '', fileType);
-
-        this.audioPlayer = new Audio();
-        this.audioPlayer.src = URL.createObjectURL(blob);
-        this.audioPlayer.play();
+        
+        console.log(URL.createObjectURL(blob))
+        this.audioBlob = blob;
+        // this.audioPlayer = new Audio();
+        // this.audioPlayer.src = URL.createObjectURL(blob);
+        // this.audioPlayer.play();
       }
     } catch (error) {
-      console.error('Error picking file', JSON.stringify(error));
+      // console.error('Error picking file', JSON.stringify(error));
     }
     return null;
   }
@@ -250,60 +118,106 @@ export class UploadPage implements OnInit {
 
 
 
-      async checkPermissions() {
-        if (this.platform.is('android')) {
-          try {
-            const readPerm = await this.androidPermissions.checkPermission(this.androidPermissions.PERMISSION.READ_EXTERNAL_STORAGE);
-            if (!readPerm.hasPermission) {
-              await this.androidPermissions.requestPermission(this.androidPermissions.PERMISSION.READ_EXTERNAL_STORAGE);
-            }
-    
-            const writePerm = await this.androidPermissions.checkPermission(this.androidPermissions.PERMISSION.WRITE_EXTERNAL_STORAGE);
-            if (!writePerm.hasPermission) {
-              await this.androidPermissions.requestPermission(this.androidPermissions.PERMISSION.WRITE_EXTERNAL_STORAGE);
-            }
-    
-            const managePerm = await this.androidPermissions.checkPermission(this.androidPermissions.PERMISSION.MANAGE_EXTERNAL_STORAGE);
-            if (!managePerm.hasPermission) {
-              await this.androidPermissions.requestPermission(this.androidPermissions.PERMISSION.MANAGE_EXTERNAL_STORAGE);
-            }
-    
-            // Verificación final después de solicitar los permisos
-            const finalReadPerm = await this.androidPermissions.checkPermission(this.androidPermissions.PERMISSION.READ_EXTERNAL_STORAGE);
-            const finalWritePerm = await this.androidPermissions.checkPermission(this.androidPermissions.PERMISSION.WRITE_EXTERNAL_STORAGE);
-            const finalManagePerm = await this.androidPermissions.checkPermission(this.androidPermissions.PERMISSION.MANAGE_EXTERNAL_STORAGE);
-    
-            if (finalReadPerm.hasPermission && finalWritePerm.hasPermission && finalManagePerm.hasPermission) {
-              console.log('Todos los permisos han sido concedidos');
-            } else {
-              console.log('No se han concedido todos los permisos necesarios');
-            }
-          } catch (error) {
-            console.error('Error al solicitar permisos: ', error);
-          }
+  async checkPermissions() {
+    if (this.platform.is('android')) {
+      try {
+        const readPerm = await this.androidPermissions.checkPermission(this.androidPermissions.PERMISSION.READ_EXTERNAL_STORAGE);
+        if (!readPerm.hasPermission) {
+          await this.androidPermissions.requestPermission(this.androidPermissions.PERMISSION.READ_EXTERNAL_STORAGE);
         }
+
+        const writePerm = await this.androidPermissions.checkPermission(this.androidPermissions.PERMISSION.WRITE_EXTERNAL_STORAGE);
+        if (!writePerm.hasPermission) {
+          await this.androidPermissions.requestPermission(this.androidPermissions.PERMISSION.WRITE_EXTERNAL_STORAGE);
+        }
+
+        const managePerm = await this.androidPermissions.checkPermission(this.androidPermissions.PERMISSION.MANAGE_EXTERNAL_STORAGE);
+        if (!managePerm.hasPermission) {
+          await this.androidPermissions.requestPermission(this.androidPermissions.PERMISSION.MANAGE_EXTERNAL_STORAGE);
+        }
+
+        // Verificación final después de solicitar los permisos
+        const finalReadPerm = await this.androidPermissions.checkPermission(this.androidPermissions.PERMISSION.READ_EXTERNAL_STORAGE);
+        const finalWritePerm = await this.androidPermissions.checkPermission(this.androidPermissions.PERMISSION.WRITE_EXTERNAL_STORAGE);
+        const finalManagePerm = await this.androidPermissions.checkPermission(this.androidPermissions.PERMISSION.MANAGE_EXTERNAL_STORAGE);
+
+        if (finalReadPerm.hasPermission && finalWritePerm.hasPermission && finalManagePerm.hasPermission) {
+          console.log('Todos los permisos han sido concedidos');
+        } else {
+          console.log('No se han concedido todos los permisos necesarios');
+        }
+      } catch (error) {
+        console.error('Error al solicitar permisos: ', error);
       }
+    }
+  }
 
 
-      //Metodo para abrir imagen
+  //Metodo para abrir imagen
   async openImagePicker() {
     try {
       const image: Photo = await Camera.getPhoto({
         quality: 90,
         allowEditing: false,
-        resultType: CameraResultType.Uri, // Obtiene la URI de la imagen
-        source: CameraSource.Photos // Fuente de las fotos, puedes cambiar a CameraSource.Camera para abrir la cámara directamente
+        resultType: CameraResultType.Uri,
+        source: CameraSource.Photos
       });
 
       if (image && image.webPath) {
         this.srcImage = this.sanitizer.bypassSecurityTrustResourceUrl(image.webPath);
         this.selectImage = true;
-        console.log('Imagen seleccionada: ', this.srcImage);
+        const imagePath = image.webPath;
+
+        console.log('Path', image)
+        this.imageBlob = await this.convertBlobUrlToBlob(imagePath);
       } else {
         console.log('El resultado de las fotos es vacío');
       }
     } catch (error) {
-      // console.error('Error seleccionando la imagen: ', error);
+      console.error('Error seleccionando la imagen: ', error);
+    }
+  }
+
+  async convertBlobUrlToBlob(blobUrl: string): Promise<Blob | null> {
+    try {
+      const response = await fetch(blobUrl);
+      if (!response.ok) throw new Error('Network response was not ok.');
+      const blob = await response.blob();
+      return blob;
+    } catch (error) {
+      console.error('Error fetching blob:', error);
+      return null;
+    }
+  }
+
+  onClick = async () => {
+    try {
+      if(!this.selectAudio) 
+          return this.showMessageBar('You must select a valid audio for your song.', 3);
+
+      if(!this.songName) 
+        return this.showMessageBar('You must enter a name for the song.', 3);
+
+      if(this.selectedGenres.length <= 0) 
+        return this.showMessageBar('You must select at least one genre.', 3);
+
+      if(!this.selectImage)
+        return this.showMessageBar('You must select a valid photo for the song.', 3);
+
+      if(!this.imageBlob || !this.audioBlob)
+          return this.showMessageBar('An error occurred while obtaining the image or song blob.', 1);
+
+      //Aqui se hace la logica para subir la cancion
+      const formData = new FormData();
+      formData.append('image', this.imageBlob, 'image');
+      formData.append('duration', this.duration.toString());
+      formData.append('song', this.audioBlob, 'song');
+      formData.append('name', this.nameAudio);
+      formData.append('genres', this.selectedGenres.join(','))
+
+      return null;
+    } catch (error) {
+      return this.showMessageBar('Could not upload the song', 1);
     }
   }
     

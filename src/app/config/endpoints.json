@@ -1,3 +1,8 @@
 {
-    "login": "users/login"
+    "login": "users/login",
+    "songByDuration": "songs/get-songs-by-duration?",
+    "songByGenre": "songs/get-songs-by-genres/?",
+    "songByName": "songs/get-songs-by-name?",
+    "songByArtist": "songs/get-songs-by-artist?",
+    "uploadSong": "firebase/upload-song"
 }
