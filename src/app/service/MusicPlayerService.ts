@@ -14,7 +14,7 @@ export class MusicPlayerService implements OnDestroy {
   duration$ = new BehaviorSubject<number>(0);
   hasPlayed$ = new BehaviorSubject<boolean>(false);
   isPlaying$ = new BehaviorSubject<boolean>(false);
-  currentSong$ = new BehaviorSubject<Song | null>(null); // Add BehaviorSubject for current song
+  currentSong$ = new BehaviorSubject<Song | null>(null);
   private updateInterval: any;
 
   constructor(private songService: SongService) {
@@ -51,7 +51,7 @@ export class MusicPlayerService implements OnDestroy {
   setCurrentIndex(index: number) {
     if (index >= 0 && index < this.songs.length) {
       this.currentIndex = index;
-      this.currentSong$.next(this.songs[this.currentIndex]); // Notify subscribers about song change
+      this.currentSong$.next(this.songs[this.currentIndex]); 
     }
   }
 
@@ -74,8 +74,6 @@ export class MusicPlayerService implements OnDestroy {
     const song = this.songs[index];
 
     if (song.song) {
-      console.error('La canción no tiene una URL válida:', song);
-      
       this.audio = new Audio(song.song);
       this.audio.play().catch((error) => {
         console.error('Error al reproducir la canción:', error);

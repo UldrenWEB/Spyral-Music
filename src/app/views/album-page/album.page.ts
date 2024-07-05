@@ -10,13 +10,14 @@ import { AlbumService } from "src/app/service/AlbumService";
 })
 export class AlbumPage implements OnInit{
     
-    private album: Album = {};
+    album: Album = {};
 
 
     constructor(private albumService: AlbumService){}
     
     ngOnInit(): void {
         this.album = this.albumService.getAlbum();
+        console.log(this.album)
     }
 
 

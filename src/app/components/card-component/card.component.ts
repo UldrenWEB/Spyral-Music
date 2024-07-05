@@ -1,11 +1,12 @@
 import { CommonModule } from "@angular/common";
-import { Component, Input } from "@angular/core";
+import { Component, Input, OnInit, ViewChild } from "@angular/core";
 import { Router } from "@angular/router";
 import { ActionSheetController, IonicModule } from "@ionic/angular";
 import { Song } from "src/app/interfaces/song";
 import { MusicPlayerService } from "src/app/service/MusicPlayerService";
 import { SongService } from "src/app/service/SongService";
 import { getFormattedArtists } from "src/app/service/formattedArtist";
+import { IonPopover } from "@ionic/angular";
 
 @Component({
     selector: 'app-card-component',
@@ -17,7 +18,8 @@ import { getFormattedArtists } from "src/app/service/formattedArtist";
         IonicModule
     ]
 })
-export class CardComponent{
+export class CardComponent implements OnInit{
+    @ViewChild(IonPopover) myPopover: IonPopover | undefined;
 
     constructor(
         public actionSheetController: ActionSheetController,
@@ -25,12 +27,16 @@ export class CardComponent{
         private router: Router,
         private playerService: MusicPlayerService
     ){}
+  ngOnInit(): void {
+    console.log('Se ejecuto')
+  }
 
     @Input() title: string = '';
     @Input() artists: string[] = [];
     @Input() imageSrc: string = '';
     @Input() url_song: string = '';
     @Input() index: number = 0;
+    @Input() id: string = '';
 
 
     maxLength: number = 30;
@@ -43,16 +49,15 @@ export class CardComponent{
         text: 'Dar like',
         handler: () => {
           console.log('Like dado');
+          //Aqui agregar like y listo
         }
       }, {
         text: 'Agregar a playlist',
         handler: () => {
           console.log('Agregado a playlist');
-        }
-      }, {
-        text: 'Reproducir',
-        handler: () => {
-          console.log('Reproduciendo');
+          this.openPopover()
+          //Debe sacar aqui todas las playlist disponibles para agregar en una
+          //Sacar modal con opciones al que seleccione se agrega a dicha playlist
         }
       }, {
         text: 'Cancelar',
@@ -63,6 +68,10 @@ export class CardComponent{
     await actionSheet.present();
   }
 
+  openPopover() {
+    this.myPopover?.present();
+  }
+
   onClick = () => {
     const song: Song = {
       artists: this.artists,
@@ -71,7 +80,6 @@ export class CardComponent{
       title: this.title
     }
 
-    console.log('AQUIII -<> ', song)
     this.playerService.stop();
     this.songService.setSong(song);
     this.playerService.setPlaylist(this.songService.getSongs());

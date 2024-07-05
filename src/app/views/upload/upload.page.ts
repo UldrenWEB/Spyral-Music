@@ -6,6 +6,7 @@ import { FilePicker } from "@capawesome/capacitor-file-picker";
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { Platform } from "@ionic/angular";
 import {AndroidPermissions} from '@awesome-cordova-plugins/android-permissions/ngx';
+import { CallService } from "src/app/service/CallService";
 
 
 @Component({
@@ -29,11 +30,11 @@ export class UploadPage implements OnInit {
     alertMessage: string = '';
     alertCode: number = 0;
     isShow: boolean = false;
-    genres: Array<{id: number, description: string}> = [
-        { id: 1, description: 'Rock' },
-        { id: 2, description: 'Pop' },
-        { id: 3, description: 'Jazz' },
-        { id: 5, description: 'Electronic' }
+    genres: Array<{id: string, description: string}> = [
+        { id: 'rock', description: 'Rock' },
+        { id: 'pop', description: 'Pop' },
+        { id: 'jazz', description: 'Jazz' },
+        { id: 'electronic', description: 'Electronic' }
       ];
       songName: string = '';
       regexSongname: string = '.{4,}';
@@ -44,6 +45,7 @@ export class UploadPage implements OnInit {
     private file: File,
     private platform: Platform,
     private sanitizer: DomSanitizer,
+    private callService: CallService
   ) { }
 
 
@@ -84,6 +86,9 @@ export class UploadPage implements OnInit {
         const filePath = data.path || "";
         const fileType = data.mimeType;
 
+        if(!fileType.startsWith('audio/')) 
+          return this.showMessageBar('Must be a valid audio file such as mp3, m4a, ogg, opus, among others.', 3);
+
         this.nameAudio = data.name;
         this.duration = data.duration || 0;
         this.selectAudio = true;
@@ -96,14 +101,12 @@ export class UploadPage implements OnInit {
         
         console.log(URL.createObjectURL(blob))
         this.audioBlob = blob;
-        // this.audioPlayer = new Audio();
-        // this.audioPlayer.src = URL.createObjectURL(blob);
-        // this.audioPlayer.play();
+        
       }
     } catch (error) {
       // console.error('Error picking file', JSON.stringify(error));
+      return null;
     }
-    return null;
   }
 
   base64ToBlob(base64: string, type: string): Blob {
@@ -164,12 +167,14 @@ export class UploadPage implements OnInit {
       });
 
       if (image && image.webPath) {
-        this.srcImage = this.sanitizer.bypassSecurityTrustResourceUrl(image.webPath);
+        // this.srcImage = this.sanitizer.bypassSecurityTrustResourceUrl(image.webPath);
         this.selectImage = true;
         const imagePath = image.webPath;
 
         console.log('Path', image)
         this.imageBlob = await this.convertBlobUrlToBlob(imagePath);
+        this.srcImage = URL.createObjectURL(this.imageBlob as Blob);
+        console.log('Se convirtio en blob correctamente');
       } else {
         console.log('El resultado de las fotos es vacío');
       }
@@ -207,15 +212,30 @@ export class UploadPage implements OnInit {
       if(!this.imageBlob || !this.audioBlob)
           return this.showMessageBar('An error occurred while obtaining the image or song blob.', 1);
 
-      //Aqui se hace la logica para subir la cancion
+      
+      console.log(`["${this.selectedGenres.join('","')}"]`)
       const formData = new FormData();
-      formData.append('image', this.imageBlob, 'image');
-      formData.append('duration', this.duration.toString());
       formData.append('song', this.audioBlob, 'song');
       formData.append('name', this.nameAudio);
-      formData.append('genres', this.selectedGenres.join(','))
+      formData.append('genres', `[${this.selectedGenres.join(',')}]`)
+      formData.append('image', this.imageBlob, 'image');
 
-      return null;
+      const result = await this.callService.callToFormData({
+        formData,
+        endPoint: 'uploadSong'
+      })
+
+      this.showMessageBar(result.message['description'], result.message['code']);
+      
+      if(result.message['code'] == 1 || result.message['code'] == 3){
+        return;
+      }
+      
+      this.audioBlob = null;
+      this.srcImage = '';
+      this.selectImage = false;
+      this.selectAudio = false;
+      this.nameAudio = '';
     } catch (error) {
       return this.showMessageBar('Could not upload the song', 1);
     }

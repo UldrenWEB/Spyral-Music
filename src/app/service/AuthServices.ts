@@ -12,6 +12,6 @@ import { Injectable } from "@angular/core";
     }
 
     setUserRole(userRole: number): void{
-        this.userRole = userRole;
+      this.userRole = userRole;
     }
 }

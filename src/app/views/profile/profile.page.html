@@ -70,7 +70,7 @@
       <div class="container-artist">
         <h2 class="txt-artist">Your career is on the rise, edit your future</h2>
         <div (click)="onSelectImage()" class="container-image">
-          <img src="https://i.scdn.co/image/ab6761610000e5ebee07b5820dd91d15d397e29c" alt="Artist image">
+          <img [src]="imageArtist" alt="Artist image">
         </div>
         <app-input-component
             [label]="'Artist name'"
@@ -111,3 +111,5 @@
     </swiper-slide>
 </swiper-container>
 </ion-content>
+
+<app-message-bar [alertCode]="alertCode" [alertMessage]="alertMessage" [showAlert]="showAlert"></app-message-bar>

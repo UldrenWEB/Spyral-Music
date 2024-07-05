@@ -5,4 +5,5 @@ export interface Album {
     image?: string;
     genres?: Array<string>;
     tracks?: Array<Song>;
+    artists?: Array<string>;
 }

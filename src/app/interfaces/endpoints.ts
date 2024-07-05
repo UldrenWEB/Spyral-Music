@@ -4,4 +4,7 @@ export interface EndPoints {
     songByName: string;
     songByArtist: string;
     songByGenre: string;
+    uploadSong: string;
+    tops: string;
+    addPlaylist: string;
 }

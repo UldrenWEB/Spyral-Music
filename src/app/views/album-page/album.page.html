@@ -1,254 +1,31 @@
-<ion-header class="ion-no-border header">
-    <ion-toolbar>
-        <ion-buttons slot="start">
-            <ion-back-button ></ion-back-button>
-        </ion-buttons>
-      <div class="cont-header">
-        <div class="container-image">
-            <img src="https://i.scdn.co/image/ab67616d0000b2732c5b24ecfa39523a75c993c4" alt="Album">
+    <ion-header class="ion-no-border header">
+        <ion-toolbar>
+            <ion-buttons slot="start">
+                <ion-back-button ></ion-back-button>
+            </ion-buttons>
+          <div class="cont-header">
+            <div class="container-image">
+                <img [src]="album.image" alt="Album">
+            </div>
+            <div class="album-info">
+                <h2>{{album.name}}</h2>
+                <p>{{album.artists}}</p>
+            </div>
+          </div>
+        </ion-toolbar>
+    </ion-header>
+    <ion-content>
+        <div class="container-songs">
+            <div *ngFor="let song of album.tracks; let i = index">
+                <app-card-component
+                    [imageSrc]="song.image || ''"
+                    [artists]="song.artists || []"
+                    [title]="song.title || ''"
+                    [url_song]="song.song || ''"
+                    [id]="song.id || ''"
+                    [index]="i"
+                ></app-card-component>
+            </div>
         </div>
-        <div class="album-info">
-            <h2>Title Album</h2>
-            <p>Artistas del album probando y viendo hasta donde es que se deforma el texto que vien</p>
-        </div>
-      </div>
-    </ion-toolbar>
-</ion-header>
-<div class="container-songs">
-    <app-card-component
-        imageSrc="https://ionicframework.com/docs/img/demos/thumbnail.svg"    
-        title="Stay (With SteveAoki)"
-    ></app-card-component>
-    <app-card-component
-        imageSrc="https://ionicframework.com/docs/img/demos/thumbnail.svg"    
-        title="Stay (With SteveAoki)"
-    ></app-card-component>
-    <app-card-component
-        imageSrc="https://ionicframework.com/docs/img/demos/thumbnail.svg"    
-        title="Stay (With SteveAoki)"
-    ></app-card-component>
-    <app-card-component
-        imageSrc="https://ionicframework.com/docs/img/demos/thumbnail.svg"    
-        title="Stay (With SteveAoki)"
-    ></app-card-component>
-    <app-card-component
-        imageSrc="https://ionicframework.com/docs/img/demos/thumbnail.svg"    
-        title="Stay (With SteveAoki)"
-    ></app-card-component>
-    <app-card-component
-        imageSrc="https://ionicframework.com/docs/img/demos/thumbnail.svg"    
-        title="Stay (With SteveAoki)"
-    ></app-card-component>
-    <app-card-component
-        imageSrc="https://ionicframework.com/docs/img/demos/thumbnail.svg"    
-        title="Stay (With SteveAoki)"
-    ></app-card-component>
-    <app-card-component
-        imageSrc="https://ionicframework.com/docs/img/demos/thumbnail.svg"    
-        title="Stay (With SteveAoki)"
-    ></app-card-component>
-    <app-card-component
-        imageSrc="https://ionicframework.com/docs/img/demos/thumbnail.svg"    
-        title="Stay (With SteveAoki)"
-    ></app-card-component>
-    <app-card-component
-        imageSrc="https://ionicframework.com/docs/img/demos/thumbnail.svg"    
-        title="Stay (With SteveAoki)"
-    ></app-card-component>
-    <app-card-component
-        imageSrc="https://ionicframework.com/docs/img/demos/thumbnail.svg"    
-        title="Stay (With SteveAoki)"
-    ></app-card-component>
-    <app-card-component
-        imageSrc="https://ionicframework.com/docs/img/demos/thumbnail.svg"    
-        title="Stay (With SteveAoki)"
-    ></app-card-component>
-    <app-card-component
-        imageSrc="https://ionicframework.com/docs/img/demos/thumbnail.svg"    
-        title="Stay (With SteveAoki)"
-    ></app-card-component>
-    <app-card-component
-        imageSrc="https://ionicframework.com/docs/img/demos/thumbnail.svg"    
-        title="Stay (With SteveAoki)"
-    ></app-card-component>
-    <app-card-component
-        imageSrc="https://ionicframework.com/docs/img/demos/thumbnail.svg"    
-        title="Stay (With SteveAoki)"
-    ></app-card-component>
-    <app-card-component
-        imageSrc="https://ionicframework.com/docs/img/demos/thumbnail.svg"    
-        title="Stay (With SteveAoki)"
-    ></app-card-component>
-    <app-card-component
-        imageSrc="https://ionicframework.com/docs/img/demos/thumbnail.svg"    
-        title="Stay (With SteveAoki)"
-    ></app-card-component>
-    <app-card-component
-        imageSrc="https://ionicframework.com/docs/img/demos/thumbnail.svg"    
-        title="Stay (With SteveAoki)"
-    ></app-card-component>
-    <app-card-component
-        imageSrc="https://ionicframework.com/docs/img/demos/thumbnail.svg"    
-        title="Stay (With SteveAoki)"
-    ></app-card-component>
-    <app-card-component
-        imageSrc="https://ionicframework.com/docs/img/demos/thumbnail.svg"    
-        title="Stay (With SteveAoki)"
-    ></app-card-component>
-    <app-card-component
-        imageSrc="https://ionicframework.com/docs/img/demos/thumbnail.svg"    
-        title="Stay (With SteveAoki)"
-    ></app-card-component>
-    <app-card-component
-        imageSrc="https://ionicframework.com/docs/img/demos/thumbnail.svg"    
-        title="Stay (With SteveAoki)"
-    ></app-card-component>
-    <app-card-component
-        imageSrc="https://ionicframework.com/docs/img/demos/thumbnail.svg"    
-        title="Stay (With SteveAoki)"
-    ></app-card-component>
-    <app-card-component
-        imageSrc="https://ionicframework.com/docs/img/demos/thumbnail.svg"    
-        title="Stay (With SteveAoki)"
-    ></app-card-component>
-    <app-card-component
-        imageSrc="https://ionicframework.com/docs/img/demos/thumbnail.svg"    
-        title="Stay (With SteveAoki)"
-    ></app-card-component>
-    <app-card-component
-        imageSrc="https://ionicframework.com/docs/img/demos/thumbnail.svg"    
-        title="Stay (With SteveAoki)"
-    ></app-card-component>
-    <app-card-component
-        imageSrc="https://ionicframework.com/docs/img/demos/thumbnail.svg"    
-        title="Stay (With SteveAoki)"
-    ></app-card-component>
-    <app-card-component
-        imageSrc="https://ionicframework.com/docs/img/demos/thumbnail.svg"    
-        title="Stay (With SteveAoki)"
-    ></app-card-component>
-    <app-card-component
-        imageSrc="https://ionicframework.com/docs/img/demos/thumbnail.svg"    
-        title="Stay (With SteveAoki)"
-    ></app-card-component>
-    <app-card-component
-        imageSrc="https://ionicframework.com/docs/img/demos/thumbnail.svg"    
-        title="Stay (With SteveAoki)"
-    ></app-card-component>
-    <app-card-component
-        imageSrc="https://ionicframework.com/docs/img/demos/thumbnail.svg"    
-        title="Stay (With SteveAoki)"
-    ></app-card-component>
-    <app-card-component
-        imageSrc="https://ionicframework.com/docs/img/demos/thumbnail.svg"    
-        title="Stay (With SteveAoki)"
-    ></app-card-component>
-    <app-card-component
-        imageSrc="https://ionicframework.com/docs/img/demos/thumbnail.svg"    
-        title="Stay (With SteveAoki)"
-    ></app-card-component>
-    <app-card-component
-        imageSrc="https://ionicframework.com/docs/img/demos/thumbnail.svg"    
-        title="Stay (With SteveAoki)"
-    ></app-card-component>
-    <app-card-component
-        imageSrc="https://ionicframework.com/docs/img/demos/thumbnail.svg"    
-        title="Stay (With SteveAoki)"
-    ></app-card-component>
-    <app-card-component
-        imageSrc="https://ionicframework.com/docs/img/demos/thumbnail.svg"    
-        title="Stay (With SteveAoki)"
-    ></app-card-component>
-    <app-card-component
-        imageSrc="https://ionicframework.com/docs/img/demos/thumbnail.svg"    
-        title="Stay (With SteveAoki)"
-    ></app-card-component>
-    <app-card-component
-        imageSrc="https://ionicframework.com/docs/img/demos/thumbnail.svg"    
-        title="Stay (With SteveAoki)"
-    ></app-card-component>
-    <app-card-component
-        imageSrc="https://ionicframework.com/docs/img/demos/thumbnail.svg"    
-        title="Stay (With SteveAoki)"
-    ></app-card-component>
-    <app-card-component
-        imageSrc="https://ionicframework.com/docs/img/demos/thumbnail.svg"    
-        title="Stay (With SteveAoki)"
-    ></app-card-component>
-    <app-card-component
-        imageSrc="https://ionicframework.com/docs/img/demos/thumbnail.svg"    
-        title="Stay (With SteveAoki)"
-    ></app-card-component>
-    <app-card-component
-        imageSrc="https://ionicframework.com/docs/img/demos/thumbnail.svg"    
-        title="Stay (With SteveAoki)"
-    ></app-card-component>
-    <app-card-component
-        imageSrc="https://ionicframework.com/docs/img/demos/thumbnail.svg"    
-        title="Stay (With SteveAoki)"
-    ></app-card-component>
-    <app-card-component
-        imageSrc="https://ionicframework.com/docs/img/demos/thumbnail.svg"    
-        title="Stay (With SteveAoki)"
-    ></app-card-component>
-    <app-card-component
-        imageSrc="https://ionicframework.com/docs/img/demos/thumbnail.svg"    
-        title="Stay (With SteveAoki)"
-    ></app-card-component>
-    <app-card-component
-        imageSrc="https://ionicframework.com/docs/img/demos/thumbnail.svg"    
-        title="Stay (With SteveAoki)"
-    ></app-card-component>
-    <app-card-component
-        imageSrc="https://ionicframework.com/docs/img/demos/thumbnail.svg"    
-        title="Stay (With SteveAoki)"
-    ></app-card-component>
-    <app-card-component
-        imageSrc="https://ionicframework.com/docs/img/demos/thumbnail.svg"    
-        title="Stay (With SteveAoki)"
-    ></app-card-component>
-    <app-card-component
-        imageSrc="https://ionicframework.com/docs/img/demos/thumbnail.svg"    
-        title="Stay (With SteveAoki)"
-    ></app-card-component>
-    <app-card-component
-        imageSrc="https://ionicframework.com/docs/img/demos/thumbnail.svg"    
-        title="Stay (With SteveAoki)"
-    ></app-card-component>
-    <app-card-component
-        imageSrc="https://ionicframework.com/docs/img/demos/thumbnail.svg"    
-        title="Stay (With SteveAoki)"
-    ></app-card-component>
-    <app-card-component
-        imageSrc="https://ionicframework.com/docs/img/demos/thumbnail.svg"    
-        title="Stay (With SteveAoki)"
-    ></app-card-component>
-    <app-card-component
-        imageSrc="https://ionicframework.com/docs/img/demos/thumbnail.svg"    
-        title="Stay (With SteveAoki)"
-    ></app-card-component>
-    <app-card-component
-        imageSrc="https://ionicframework.com/docs/img/demos/thumbnail.svg"    
-        title="Stay (With SteveAoki)"
-    ></app-card-component>
-    <app-card-component
-        imageSrc="https://ionicframework.com/docs/img/demos/thumbnail.svg"    
-        title="Stay (With SteveAoki)"
-    ></app-card-component>
-    <app-card-component
-        imageSrc="https://ionicframework.com/docs/img/demos/thumbnail.svg"    
-        title="Stay (With SteveAoki)"
-    ></app-card-component>
-    <app-card-component
-        imageSrc="https://ionicframework.com/docs/img/demos/thumbnail.svg"    
-        title="Stay (With SteveAoki)"
-    ></app-card-component>
-    <app-card-component
-        imageSrc="https://ionicframework.com/docs/img/demos/thumbnail.svg"    
-        title="Stay (With SteveAoki)"
-    ></app-card-component>
-    <app-card-component
-        imageSrc="https://ionicframework.com/docs/img/demos/thumbnail.svg"    
-        title="Stay (With SteveAoki)"
-    ></app-card-component>
-</div>
+
+    </ion-content>

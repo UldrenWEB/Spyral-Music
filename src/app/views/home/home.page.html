@@ -2,28 +2,32 @@
 
   <div class="content">
      <h2>Top Albums</h2>
-     <div class="cont-x"> 
-        <app-album-component></app-album-component>
-        <app-album-component></app-album-component>
-        <app-album-component></app-album-component>
-        <app-album-component></app-album-component>
-        <app-album-component></app-album-component>
-        <app-album-component></app-album-component>
-        <app-album-component></app-album-component>
+     <div class="cont-x" >
+        <div *ngFor="let album of dataAlbums">
+          <app-album-component
+            [artists]="album.artists"
+            [title]="album.name"
+            [imageSrc]="album.image"
+            [genres]="album.genres"
+            [tracks]="album.songs"
+          ></app-album-component>
+        </div> 
      </div>
      <div>
-       <h2>Top Albums</h2>
+       <h2>Top Artist</h2>
        <div class="cont-x"> 
-         <app-album-component></app-album-component>
-         <app-album-component></app-album-component>
-         <app-album-component></app-album-component>
-         <app-album-component></app-album-component>
-         <app-album-component></app-album-component>
-         <app-album-component></app-album-component>
-         <app-album-component></app-album-component>
+        <div *ngFor="let artist of dataArtists; let i = index">
+          <app-album-component
+              [title]="artist.name"
+              [artists]="['']"
+              [imageSrc]="artist.image"
+              [genres]="artist.genres"
+              [tracks]="artist.tracks"
+          ></app-album-component>
+        </div>
         </div>
      <div>
-       <h2>Top Albums</h2>
+       <h2>Top Genres</h2>
        <div class="cont-x"> 
          <app-album-component></app-album-component>
          <app-album-component></app-album-component>
@@ -37,4 +41,8 @@
     </div>
   </div>
   </ion-content>
+
+
+  <app-message-bar [alertCode]="alertCode" [alertMessage]="alertMessage" [showAlert]="showAlert"></app-message-bar>
+
   

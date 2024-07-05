@@ -102,8 +102,8 @@ export class SearchPage {
             endpoint: 'songByName',
             body:{
               name: this.searchTxt,
+              offset: this.offset * this.limitSearch,
               limit: this.limitSearch,
-              offset: this.offset * this.limitSearch
             }
           }
         break;
@@ -135,11 +135,11 @@ export class SearchPage {
 
       const data = result['data']
 
-      const songs = data.map((song: any) => ({
+      const songs = (typeof data === 'object' ? data.Songs : data).map((song: any) => ({
         title: song.name,
         song:song.url_cancion,
         image: song.image,
-        artists: song.Artist
+        artists: song.Artist ? song.Artist : song.artists
       }))
 
       this.isSong = true;
@@ -173,11 +173,11 @@ export class SearchPage {
 
       if(data.length <= 0) return this.#showMessageBar('No hay mas canciones', 3);
 
-      const songs = data.map((song: any) => ({
+      const songs = (typeof data === 'object' ? data.Songs : data).map((song: any) => ({
         title: song.name,
         song:song.url_cancion,
         image: song.image,
-        artists: song.Artist
+        artists: song.Artist ? song.Artist : song.artists
       }))
 
       this.songs.push(...songs);

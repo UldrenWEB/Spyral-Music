@@ -9,6 +9,7 @@ import { AlbumComponent } from 'src/app/components/album-component/album.compone
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
+import { MessageBarComponent } from 'src/app/components/message-bar/message-bar.component';
 
 @NgModule({
   imports: [
@@ -20,7 +21,8 @@ import { MatButtonModule } from '@angular/material/button';
     MatFormFieldModule, 
     MatInputModule, 
     FormsModule, 
-    MatButtonModule
+    MatButtonModule,
+    MessageBarComponent
   ],
   declarations: [CategoriesPage],
 })

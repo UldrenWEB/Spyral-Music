@@ -4,5 +4,7 @@
     "songByGenre": "songs/get-songs-by-genres/?",
     "songByName": "songs/get-songs-by-name?",
     "songByArtist": "songs/get-songs-by-artist?",
-    "uploadSong": "firebase/upload-song"
+    "uploadSong": "firebase/upload-song",
+    "tops": "songs/get-combined-genres-albums-songs?",
+    "addPlaylist": "playlist/add-playlist"
 }

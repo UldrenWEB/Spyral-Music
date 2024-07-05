@@ -105,16 +105,31 @@ export class LoginPage implements OnInit{
     }
 
     const data = result['data'];
+    const artist = data['artist'];
 
-    //Cambiar el rol
-    this.storageService.set('token', data.token)
-    this.storageService.set('userI', data.userId)
-    this.authService.setUserRole(1);
+    console.log(data.idRol)
+    this.storageService.set('token', data.token);
+    this.storageService.set('user', JSON.stringify({
+      user: {
+        id: data.userId,
+        username: data.username,
+        email: data.email,
+        rol: data.idRol
+      },
+      ...(!artist ? {} : {
+        artist: {
+          genres: artist.genres,
+          image: artist.image,
+          name: artist.name,
+        }
+      })
+    }));
+    this.authService.setUserRole(Number(data.idRol));
     
   
     setTimeout(() => {
       this.router.navigate(['/tabs'])
-    }, 200)
+    }, 400)
   }
 
   onRedirect = () => {

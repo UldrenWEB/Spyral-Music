@@ -1,5 +1,9 @@
 @import '../../../theme/variables.scss';
 
+.container{
+  background-color: black;
+}
+
 .cont-header{
     display: flex;
     justify-content: center;
@@ -48,6 +52,9 @@
 
 ion-toolbar {
     --background: black;
+}
+ion-content{
+  --background: black;
 }
 
 .container-songs{

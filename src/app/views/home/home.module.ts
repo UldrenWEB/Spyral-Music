@@ -7,6 +7,7 @@ import { HomePage } from './home.page';
 import { HomePageRoutingModule } from './home-routing.module';
 import { CardComponent } from 'src/app/components/card-component/card.component';
 import { AlbumComponent } from 'src/app/components/album-component/album.component';
+import { MessageBarComponent } from 'src/app/components/message-bar/message-bar.component';
 
 @NgModule({
   imports: [
@@ -15,7 +16,8 @@ import { AlbumComponent } from 'src/app/components/album-component/album.compone
     FormsModule,
     HomePageRoutingModule,
     CardComponent,
-    AlbumComponent
+    AlbumComponent,
+    MessageBarComponent
   ],
   declarations: [HomePage]
 })

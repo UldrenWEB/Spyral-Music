@@ -5,6 +5,7 @@ import { IonicModule } from "@ionic/angular";
 import { Album } from "src/app/interfaces/album";
 import { AlbumService } from "src/app/service/AlbumService";
 import { getFormattedArtists } from "src/app/service/formattedArtist";
+import { SongService } from "src/app/service/SongService";
 
 
 @Component({
@@ -21,7 +22,7 @@ export class AlbumComponent{
     @Input() imageSrc: string = '';
     @Input() title: string = '';
     @Input() artists: Array<string> = [];
-    @Input() tracks: Array<Object> = [];
+    @Input() tracks: Array<any> = [];
     @Input() genres: Array<string> = [];
     
     private album : Album = {
@@ -31,10 +32,30 @@ export class AlbumComponent{
         tracks: this.tracks
     }
 
-    constructor(private router: Router, private albumService: AlbumService){}
+    constructor(
+        private router: Router,
+        private albumService: AlbumService,
+        private songService: SongService
+    ){}
 
     onRedirect = () => {
-        this.albumService.setAlbum(this.album);
+        const tracks = this.tracks.map(track => ({
+            image: track.image,
+            artists: track.artists,
+            id: track._id,
+            title: track.name,
+            song: track.url_cancion
+        }))
+
+        this.albumService.setAlbum({
+            artists:this.artists,
+            genres: this.genres,
+            image: this.imageSrc,
+            name: this.title,
+            tracks 
+        });
+        
+        this.songService.setSongs(tracks);
         this.router.navigate(['/view-album']);
     }
 
