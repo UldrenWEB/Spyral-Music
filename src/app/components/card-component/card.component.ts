@@ -7,6 +7,7 @@ import { MusicPlayerService } from "src/app/service/MusicPlayerService";
 import { SongService } from "src/app/service/SongService";
 import { getFormattedArtists } from "src/app/service/formattedArtist";
 import { IonPopover } from "@ionic/angular";
+import { CallService } from "src/app/service/CallService";
 
 @Component({
     selector: 'app-card-component',
@@ -20,19 +21,41 @@ import { IonPopover } from "@ionic/angular";
 })
 export class CardComponent implements OnInit{
     @ViewChild(IonPopover) myPopover: IonPopover | undefined;
+    playlists: Array<any> = [];
 
     constructor(
         public actionSheetController: ActionSheetController,
         private songService: SongService,
         private router: Router,
-        private playerService: MusicPlayerService
+        private playerService: MusicPlayerService,
+        private callService: CallService
     ){}
-  ngOnInit(): void {
-    console.log('Se ejecuto')
+  async ngOnInit() {
+    const result = await this.callService.call({
+      method: 'get',
+      isToken: true,
+      endPoint: 'allPlaylist',
+      body: null
+    })
+
+    if(result.message['description'] == 1 || result.message['code'] == 3){
+      return;
+    }
+
+    const data = result['data'];
+    
+    const playlists = data.map((playlist: any) => ({
+      id: playlist._id,
+      title: playlist.name,
+    }))
+    
+    this.playlists = playlists;
   }
 
     @Input() title: string = '';
     @Input() artists: string[] = [];
+    @Input() isLiked: boolean = false;
+    @Input() likes: number = 0;
     @Input() imageSrc: string = '';
     @Input() url_song: string = '';
     @Input() index: number = 0;
@@ -46,18 +69,9 @@ export class CardComponent implements OnInit{
     const actionSheet = await this.actionSheetController.create({
       header: 'Opciones',
       buttons: [{
-        text: 'Dar like',
-        handler: () => {
-          console.log('Like dado');
-          //Aqui agregar like y listo
-        }
-      }, {
         text: 'Agregar a playlist',
         handler: () => {
-          console.log('Agregado a playlist');
           this.openPopover()
-          //Debe sacar aqui todas las playlist disponibles para agregar en una
-          //Sacar modal con opciones al que seleccione se agrega a dicha playlist
         }
       }, {
         text: 'Cancelar',
@@ -72,14 +86,32 @@ export class CardComponent implements OnInit{
     this.myPopover?.present();
   }
 
+  async onSelect(item: any){
+    const result = await this.callService.call({
+      method: 'put',
+      isToken: true,
+      body: {
+        idPlaylist: item.id,
+        idSong: this.id
+      },
+      endPoint: 'modifyPlaylist'
+    })
+
+    console.log('AQUI ID', this.id)
+    console.log(result)
+
+  }
+
   onClick = () => {
     const song: Song = {
       artists: this.artists,
       image: this.imageSrc,
       song: this.url_song,
-      title: this.title
+      title: this.title,
+      likes: this.likes,
+      isLiked: this.isLiked
     }
-
+    console.log(this.songService.getSongs())
     this.playerService.stop();
     this.songService.setSong(song);
     this.playerService.setPlaylist(this.songService.getSongs());

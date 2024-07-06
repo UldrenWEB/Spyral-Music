@@ -13,14 +13,19 @@ import { StorageService } from "./StorageService";
 export class CallService {
     constructor(private loaderService: LoaderService, private storageService: StorageService){}
 
-    call = async ({ method, body = null, isToken = false, endPoint } : { method: RequestMethod, body: Object | null , isToken: Boolean, endPoint: EndPoints}) => {
+    call = async ({ method, body = null, isToken = false, endPoint, id = null } : { method: RequestMethod, body: object | null  , isToken: Boolean, endPoint: EndPoints, id?: string | null}) => {
         this.loaderService.show();
     
         try {
             const token = isToken ? await this.storageService.get('token') : null;
             const auth = { Authorization: `Bearer ${token}` };
     
-            let url = `${base_url}${endpoints[endPoint]}`;
+            let url;
+            if(endPoint === 'songById') {
+                url = `${base_url}${endpoints[endPoint]}${id}`;
+            }else{
+                url = `${base_url}${endpoints[endPoint]}`;
+            }
             if (method.toUpperCase() === 'GET' && body && Object.keys(body).length > 0) {
                 console.log('Entro aqui')
                 const queryParams = Object.entries(body)
@@ -28,7 +33,7 @@ export class CallService {
                     .join('&');
                 url = `${url}${queryParams}`;
             }
-            console.log('url -->', url)
+
             const fetchOptions: RequestInit = {
                 method: method.toUpperCase(),
                 headers: {
@@ -36,16 +41,16 @@ export class CallService {
                     ...(token && auth)
                 }
             };
-    
+            
             if (method.toUpperCase() !== 'GET' && body) {
                 fetchOptions.body = JSON.stringify(body);
             }
-    
+            
             const response = await fetch(url, fetchOptions);
-    
+            
             const result = await response.json();
             return result;
-    
+            
         } catch (error) {
             console.error('Error en la llamada a la API', error);
             return { message: { description: 'Hubo un error al hacer fetch', code: 1 } };

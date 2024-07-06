@@ -12,7 +12,7 @@
 <ion-content>
   <swiper-container class="mySwiper"  pagination="true" >
     <swiper-slide class="swiperSlider">
-      <button class="btn-del">
+      <button (click)="onDelete()" class="btn-del">
         <ion-icon name="trash-outline"></ion-icon>
       </button>
         <div class="container-input">
@@ -96,16 +96,16 @@
                 >
                 <ion-select-option 
                     *ngFor="let genre of genres"
-                    [value]="genre.id"  
+                    [value]="genre"  
                 >
-                {{ genre.description }}
+                {{ genre }}
                 </ion-select-option>
             </ion-select>
         </div>
 
-        <div (click)="onSaveArtist()" class="cont-btn">
+        <!-- <div (click)="onSaveArtist()" class="cont-btn">
           <button class="btn-edit">Save Artist</button>
-        </div>
+        </div> -->
         
       </div>
     </swiper-slide>

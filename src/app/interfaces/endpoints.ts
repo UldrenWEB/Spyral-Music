@@ -7,4 +7,13 @@ export interface EndPoints {
     uploadSong: string;
     tops: string;
     addPlaylist: string;
+    register: string;
+    allGenres: string;
+    createArtist: string;
+    deleteAccount: string;
+    editProfile: string;
+    allPlaylist: string;
+    modifyPlaylist: string;
+    addLike: string;
+    songById: string;
 }

@@ -1,10 +1,19 @@
 {
     "login": "users/login",
+    "register": "users/register",
     "songByDuration": "songs/get-songs-by-duration?",
     "songByGenre": "songs/get-songs-by-genres/?",
     "songByName": "songs/get-songs-by-name?",
     "songByArtist": "songs/get-songs-by-artist?",
     "uploadSong": "firebase/upload-song",
     "tops": "songs/get-combined-genres-albums-songs?",
-    "addPlaylist": "playlist/add-playlist"
+    "addPlaylist": "playlist/add-playlist",
+    "allGenres": "genres/genres",
+    "createArtist": "artist/add-artist",
+    "deleteAccount":"users/delete-account",
+    "editProfile": "users/edit-profile",
+    "allPlaylist": "playlist/get-all-playlists",
+    "modifyPlaylist":"playlist/modify-playlist",
+    "addLike": "likes/songs/like",
+    "songById": "songs/get-song/"
 }

@@ -1,6 +1,7 @@
 import { Component, OnInit, OnDestroy, ChangeDetectorRef, AfterViewInit } from "@angular/core";
 import { Subscription } from 'rxjs';
 import { Song } from "src/app/interfaces/song";
+import { CallService } from "src/app/service/CallService";
 import { MusicPlayerService } from "src/app/service/MusicPlayerService";
 import { SongService } from "src/app/service/SongService";
 import { getFormattedArtists } from "src/app/service/formattedArtist";
@@ -24,12 +25,24 @@ export class SongPage implements OnInit, OnDestroy, AfterViewInit {
   constructor(
     private playerService: MusicPlayerService,
     private songService: SongService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private callService: CallService
   ) {}
 
-  ngOnInit(): void {
-    this.currentSong = this.playerService.getCurrentSong();
+  currentSongReal: any  = {};
 
+  async ngOnInit(){
+    this.currentSong = this.playerService.getCurrentSong();
+    
+    const result = await this.callService.call({
+      method: 'get',
+      body: null,
+      id: this.currentSong.id,
+      isToken: true,
+      endPoint: 'songById'
+    })
+    this.currentSongReal  = result['data']
+    console.log('AQUI CURRENT SONG REAL', this.currentSongReal);
     this.timeUpdateSubscription = this.playerService.currentTime$.subscribe(currentTime => {
       this.currentProgress = currentTime;
     });
@@ -96,15 +109,22 @@ export class SongPage implements OnInit, OnDestroy, AfterViewInit {
     this.cdr.detectChanges();
   }
 
-  disableLike: boolean = true;
-  toggleLike() {
-    if (!this.disableLike) return;
+  addLike: number = 0;
+  async toggleLike() {
+    if(this.currentSongReal.isLiked) return;
 
-    this.disableLike = false;
-    this.isLiked = !this.isLiked;
-    setTimeout(() => {
-      this.disableLike = true;
-    }, 2000);
+    await this.callService.call({
+      method: 'post',
+      body: {
+        songId: this.currentSong.id
+      },
+      endPoint: 'addLike',
+      isToken: true
+    })
+
+    this.isLiked = true;
+    this.addLike = 1;
+
   }
 
   formattedArtist = (): string => {

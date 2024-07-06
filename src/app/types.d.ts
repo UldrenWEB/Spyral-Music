@@ -7,7 +7,16 @@ type EndPoints = 'login' |
     'songByGenre' |
     'uploadSong' |
     'tops' |
-    'addPlaylist'
+    'addPlaylist' | 
+    'register' |
+    'allGenres' |
+    'createArtist' |
+    'deleteAccount' |
+    'editProfile' |
+    'allPlaylist' | 
+    'modifyPlaylist' | 
+    'addLike' | 
+    'songById'
 
 
 

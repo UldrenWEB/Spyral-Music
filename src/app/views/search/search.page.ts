@@ -125,7 +125,7 @@ export class SearchPage {
         method: 'get',
         body: this.operation.body,
         endPoint: this.operation.endpoint,
-        isToken: false
+        isToken: true
       });
 
 
@@ -133,21 +133,25 @@ export class SearchPage {
         return this.#showMessageBar(result.message['description'], result.message['code'])
 
 
-      const data = result['data']
-
-      const songs = (typeof data === 'object' ? data.Songs : data).map((song: any) => ({
+      const data = result['data'];
+      const songs = (data.Songs ? data.Songs : data).map((song: any) => ({
+        id: song._id,
         title: song.name,
         song:song.url_cancion,
         image: song.image,
-        artists: song.Artist ? song.Artist : song.artists
+        artists: song.Artist ? song.Artist : song.artist,
+        likes: song.likes,
+        isLiked: song.isLiked
       }))
-
+      
       this.isSong = true;
       this.songs = songs;
+      console.log('ESTA ES LA INFORMACION', songs)
       this.songService.setSongs(songs);
 
 
     } catch (error) {
+      console.error('Error: ', error)
       this.#showMessageBar('An error occurred during the search', 1);
     } finally {
       // await loading.dismiss();
@@ -163,7 +167,7 @@ export class SearchPage {
         method: 'get',
         body: this.operation.body,
         endPoint: this.operation.endpoint,
-        isToken: false
+        isToken: true
       });
 
       if(result.message['code'] == 1 || result.message['code'] == 3) 
@@ -173,7 +177,7 @@ export class SearchPage {
 
       if(data.length <= 0) return this.#showMessageBar('No hay mas canciones', 3);
 
-      const songs = (typeof data === 'object' ? data.Songs : data).map((song: any) => ({
+      const songs =(data.Songs ? data.Songs : data).map((song: any) => ({
         title: song.name,
         song:song.url_cancion,
         image: song.image,

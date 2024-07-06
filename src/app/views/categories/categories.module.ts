@@ -10,6 +10,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MessageBarComponent } from 'src/app/components/message-bar/message-bar.component';
+import { PlaylistComponent } from 'src/app/components/playlist-component/playlist.component';
 
 @NgModule({
   imports: [
@@ -22,7 +23,8 @@ import { MessageBarComponent } from 'src/app/components/message-bar/message-bar.
     MatInputModule, 
     FormsModule, 
     MatButtonModule,
-    MessageBarComponent
+    MessageBarComponent,
+    PlaylistComponent
   ],
   declarations: [CategoriesPage],
 })

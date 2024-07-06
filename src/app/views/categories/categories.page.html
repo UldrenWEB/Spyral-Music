@@ -17,13 +17,12 @@
   <div class="content">
     <h2 class="title">In one place</h2>
     <div class="cont-playlist"> 
-       <app-album-component></app-album-component>
-       <app-album-component></app-album-component>
-       <app-album-component></app-album-component>
-       <app-album-component></app-album-component>
-       <app-album-component></app-album-component>
-       <app-album-component></app-album-component>
-       <app-album-component></app-album-component>
+      <div *ngFor="let playlist of playlists; let i = index">
+        <app-playlist
+          [title]="playlist.title"
+          [tracks]="playlist.songs"
+        ></app-playlist>
+      </div>
     </div>
   </div>
   

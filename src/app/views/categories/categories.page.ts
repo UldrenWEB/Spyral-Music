@@ -28,9 +28,39 @@ export class CategoriesPage implements OnInit {
   private isShow: boolean = false;
 
 
+  playlists: Array<any> = [];
+
+
 
   async ngOnInit() {
-    console.log('Aqui se traera la playlist del user')
+    const result = await this.callService.call({
+      method: 'get',
+      isToken: true,
+      endPoint: 'allPlaylist',
+      body: null
+    })
+
+    if(result.message['description'] == 1 || result.message['code'] == 3){
+      return this.#showMessageBar(result.message['description'], result.message['code']);
+    }
+
+    const data = result['data'];
+    const playlists = data.map((playlist: any) => ({
+      id: playlist._id,
+      title: playlist.name,
+      songs: playlist.idSong?.map((song:any) =>({
+        id: song._id,
+        title: song.name,
+        image: song.image,
+        artists: '',
+        song: song.url_cancion,
+        isLiked: song.isLiked ? song.isLiked : false,
+        likes: song.likes
+      }))
+    }))
+    
+    this.playlists = playlists;
+    this.cdr.detectChanges();
   }
 
   openDialog() {
@@ -49,11 +79,12 @@ export class CategoriesPage implements OnInit {
               name: result
             }
           })
-          //TODO: RECUERDA QUE TIENES LAS IMAGENES PARA METER LAS PLAYLIST AHI
-          //Marcial tiene que arreglar lo del message que no envia el description
-          //Se debe quitar lo de image y la otra prop para que cuando cree la playlist sea solo con el nombre
-          console.log(response)
-          this.#showMessageBar('Entro aqui y algo paso', 3)
+          this.#showMessageBar(response.message['description'], response.message['code']);
+          if(response.message['description'] == 1 || response.message['code']){
+            return;
+          }
+          const data = response['data'].playlist
+          this.playlists.push({title: data.name, tracks: data.songs});
           this.cdr.detectChanges();
         }catch(error){
           console.log(error)

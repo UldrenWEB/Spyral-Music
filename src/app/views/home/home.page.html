@@ -22,27 +22,27 @@
               [artists]="['']"
               [imageSrc]="artist.image"
               [genres]="artist.genres"
-              [tracks]="artist.tracks"
+              [tracks]="artist.songs"
           ></app-album-component>
         </div>
         </div>
      <div>
        <h2>Top Genres</h2>
-       <div class="cont-x"> 
-         <app-album-component></app-album-component>
-         <app-album-component></app-album-component>
-         <app-album-component></app-album-component>
-         <app-album-component></app-album-component>
-         <app-album-component></app-album-component>
-         <app-album-component></app-album-component>
-         <!-- <app-album-component></app-album-component> -->
+       <div class="cont-x">
+        <div *ngFor="let artist of dataSongs; let i = index">
+          <app-album-component
+          [title]="artist.name"
+          [artists]="['']"
+          [imageSrc]="artist.image"
+          [genres]="artist.genres"
+          [tracks]="artist.songs"
+          ></app-album-component>
+        </div>
         </div>
       </div>
     </div>
   </div>
   </ion-content>
-
-
   <app-message-bar [alertCode]="alertCode" [alertMessage]="alertMessage" [showAlert]="showAlert"></app-message-bar>
 
   

@@ -37,7 +37,7 @@ export class HomePage implements OnInit {
     this.dataSongs = songs.data;
     this.dataArtists  = artists.data;
 
-    console.log('result --> ', this.dataArtists)
+    console.log('DATA ARTISTA', this.dataArtists)
   }
 
 

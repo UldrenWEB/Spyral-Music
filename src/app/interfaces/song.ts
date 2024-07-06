@@ -6,4 +6,6 @@ export interface Song {
     song?: string;
     name?: string;
     Artist?: string[];
+    likes?: number;
+    isLiked?: boolean;
 }

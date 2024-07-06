@@ -51,9 +51,9 @@
 
         <div class="cont-likes">
           <button (click)="toggleLike()">
-            <ion-icon [name]="isLiked ? 'heart' : 'heart-outline'"></ion-icon>
+            <ion-icon [name]="(isLiked ? isLiked : currentSongReal.isLiked) ? 'heart' : 'heart-outline'"></ion-icon>
         </button>
-          <h3><span class="txt-likes">10</span></h3>
+          <h3><span class="txt-likes">{{(currentSongReal.likes || 0) + addLike}}</span></h3>
         </div>
     </div>
 </ion-content>

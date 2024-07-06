@@ -126,7 +126,7 @@ export class LoginPage implements OnInit{
     }));
     this.authService.setUserRole(Number(data.idRol));
     
-  
+    this.resetProps();
     setTimeout(() => {
       this.router.navigate(['/tabs'])
     }, 400)
@@ -134,6 +134,11 @@ export class LoginPage implements OnInit{
 
   onRedirect = () => {
     this.router.navigate(['/register'])
+  }
+
+  private resetProps = () => {
+    this.emailValue = '';
+    this.passwordValue = '';
   }
   
 

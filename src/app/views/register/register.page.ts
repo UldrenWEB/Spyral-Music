@@ -2,6 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
 import { Keyboard } from "@capacitor/keyboard";
 import { Platform } from "@ionic/angular";
+import { CallService } from "src/app/service/CallService";
 import { DataService } from "src/app/service/DataService";
 
 @Component({
@@ -11,7 +12,12 @@ import { DataService } from "src/app/service/DataService";
 })
 export class RegisterPage implements OnInit{
 
-    constructor(private router: Router, private dataService: DataService, private platform: Platform){}
+    constructor(
+      private router: Router,
+      private dataService: DataService,
+      private platform: Platform,
+      private callService: CallService
+    ){}
     
     ngOnInit(): void {
         this.setupKeyboardListener();
@@ -20,16 +26,9 @@ export class RegisterPage implements OnInit{
     setupKeyboardListener() {
         if (this.platform.is('capacitor')) {
           Keyboard.addListener('keyboardWillShow', (info) => {
-            // Asegura que el elemento exista y sea del tipo HTMLElement antes de modificar su estilo
             const containerInput = document.querySelector('.container-input');
             if (containerInput instanceof HTMLElement) {
-              // Opción 1: Usar scrollIntoView para asegurar que el input sea visible
-              // Esto hará que el navegador desplace el contenedor para que el input sea visible
-              // Nota: Considera la necesidad de un enfoque más específico si tienes múltiples inputs
               containerInput.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-      
-              // Opción 2: Ajustar el padding-bottom basado en la altura del teclado
-              // Esto puede ser útil si tienes un control más fino sobre el comportamiento de desplazamiento
               containerInput.style.paddingBottom = `${info.keyboardHeight}px`;
             }
           });
@@ -102,27 +101,51 @@ export class RegisterPage implements OnInit{
     }
 
 
-    onClick = () => {
-       if(!this.isValidEmail || !this.isValidPassword || !this.isValidUsername) return;
-       
-       console.log('Pas')
-       if(this.isArtist){
-            const user = {
-                username: this.usernameValue,
-                password: this.passwordValue,
-                email: this.emailValue
-            }
-            this.dataService.setData(user);
-            this.router.navigate(['/create-artist'])
-            return;
-       }
+    onClick = async () => {
+      if(!this.isValidEmail || !this.isValidPassword || !this.isValidUsername) return;
+      
+      console.log('Pas')
+      if(this.isArtist){
+          const user = {
+            username: this.usernameValue,
+            password: this.passwordValue,
+            email: this.emailValue
+          }
+          this.dataService.setData(user);
+          this.router.navigate(['/create-artist'])
+          return;
+      }
 
-       //Si todo fue se manda el mensaje de registro exitoso
-       //Luego se redirije al login para que ingrese sus datos
+      //Si todo fue se manda el mensaje de registro exitoso
+      //Luego se redirije al login para que ingrese sus datos
+      const result = await this.callService.call({
+      method: 'post',
+      isToken: false,
+      endPoint: 'register',
+      body: {
+        username: this.usernameValue,
+        email: this.emailValue,
+        password: this.passwordValue,
+        idRol: '2',
+      }
+      })
+      this.#showMessageBar(result.message['description'], result.message['code']);
+      if(result.message['code'] == 1 || result.message['code'] == 2){
+      return;
+      }
 
-       this.#showMessageBar('User logueado', 0);
-       this.router.navigate(['/tabs'])
-       return;
+      this.resetProps();
+      setTimeout(() => {
+        this.router.navigate(['/tabs'])
+      }, 500)
+      return;
+    }
+
+
+    private resetProps = () => {
+      this.usernameValue = '';
+      this.passwordValue = '';
+      this.emailValue = '';
     }
 
 

@@ -1,5 +1,5 @@
 import { CommonModule } from "@angular/common";
-import { Component, Input} from "@angular/core";
+import { Component, Input } from "@angular/core";
 import { Router } from "@angular/router";
 import { IonicModule } from "@ionic/angular";
 import { Album } from "src/app/interfaces/album";
@@ -9,59 +9,57 @@ import { SongService } from "src/app/service/SongService";
 
 
 @Component({
-    selector: 'app-album-component',
-    templateUrl: 'album.component.html',
-    styleUrls: ['album.component.scss'],
+    selector: 'app-playlist',
+    templateUrl: 'playlist.component.html',
+    styleUrls: ['playlist.component.scss'],
     standalone: true,
-    imports:[
+    imports: [
         IonicModule,
         CommonModule
     ]
 })
-export class AlbumComponent{
-    @Input() imageSrc: string = '';
+export class PlaylistComponent {
+    
     @Input() title: string = '';
-    @Input() artists: Array<string> = [];
     @Input() tracks: Array<any> = [];
-    @Input() genres: Array<string> = [];
+    imageSrc: string = 'https://firebasestorage.googleapis.com/v0/b/spiralmusicapp.appspot.com/o/spiralLogo.svg?alt=media&token=ec544c81-bcbb-4718-b107-e29146cdd189';
+    
+    constructor(
+        private albumService: AlbumService,
+        private songService: SongService,
+        private router: Router
+    ) {}
+    
     
     private album : Album = {
         image: this.imageSrc,
-        genres: this.genres,
         name: this.title,
         tracks: this.tracks
     }
 
-    constructor(
-        private router: Router,
-        private albumService: AlbumService,
-        private songService: SongService
-    ){}
-
-    onRedirect = () => {
-        console.log(this.tracks)
-        const tracks = this.tracks.map(track => ({
+    onClick = () => {
+        console.log('Prueba aqui', this.tracks)
+        const tracks = (!this.tracks ? []: this.tracks ).map(track => ({
             image: track.image,
             artists: track.artists,
-            id: track._id,
-            title: track.name,
-            song: track.url_cancion,
+            id: track.id,
+            title: track.title,
+            song: track.song,
             likes: track.likes,
             isLiked: track.isLiked
         }))
-
         this.albumService.setAlbum({
-            artists:this.artists,
-            genres: this.genres,
             image: this.imageSrc,
             name: this.title,
-            tracks 
+            tracks: tracks
         });
-        
+
+
         this.songService.setSongs(tracks);
         this.router.navigate(['/view-album']);
     }
 
+    
     truncateText(text: string, maxLength: number): string {
         if (text.length > maxLength) {
             return text.substring(0, maxLength) + '...';
@@ -70,8 +68,8 @@ export class AlbumComponent{
         }
     }
 
-    formattedArtist = () : string => {
-        return getFormattedArtists(this.artists, 15);
-    }
-
+    // formattedArtist = () : string => {
+    //     return getFormattedArtists(this.artists, 20);
+    // }
 }
+

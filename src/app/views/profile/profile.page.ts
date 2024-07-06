@@ -5,6 +5,7 @@ import { Camera, CameraResultType, CameraSource, Photo } from "@capacitor/camera
 import { Keyboard } from "@capacitor/keyboard";
 import { Platform } from "@ionic/angular";
 import { AuthService } from "src/app/service/AuthServices";
+import { CallService } from "src/app/service/CallService";
 import { DataService } from "src/app/service/DataService";
 import { StorageService } from "src/app/service/StorageService";
 
@@ -21,15 +22,27 @@ export class ProfilePage implements OnInit{
       private platform: Platform, 
       private authService: AuthService,
       private storageService: StorageService,
-      private sanitizer: DomSanitizer
+      private sanitizer: DomSanitizer,
+      private callService: CallService
     ){}
     
     
     async ngOnInit() {
       this.setupKeyboardListener();
-      
       this.userRol = this.authService.getUserRole();
-      console.log(this.userRol);
+
+      const result = await this.callService.call({
+        method: 'get',
+        isToken: true,
+        body: null,
+        endPoint: 'allGenres'
+      })
+
+      if(result.message['code'] == 1 || result.message['code'] == 3){
+        return this.#showMessageBar(result.message['description'], result.message['code']);
+      }
+
+      this.genres = result['data'];
 
       const userString = await this.storageService.get('user');
       const user = JSON.parse(userString);
@@ -45,7 +58,7 @@ export class ProfilePage implements OnInit{
       this.emailValue = this.email;
       this.imageArtist = user['artist'].image || '';
       this.artistnameValue = this.artistname;
-      this.selectedGenres = [1, 2]
+      this.selectedGenres = user['artist'].genres || [];
     }
     
     //Data que tiene el usuario actualmente
@@ -62,12 +75,7 @@ export class ProfilePage implements OnInit{
     emailValue: string = '';
     artistnameValue: string = '';
     selectedGenres: number[] = [];
-    genres: Array<{id: number, description: string}> = [
-        { id: 1, description: 'Rock' },
-        { id: 2, description: 'Pop' },
-        { id: 3, description: 'Jazz' },
-        { id: 5, description: 'Electronic' }
-    ];
+    genres: Array<string> = [];
     
     //MessageBar
     alertCode: number = 0;
@@ -145,7 +153,7 @@ export class ProfilePage implements OnInit{
     }
 
 
-    onSaveUser = () => {
+    onSaveUser = async () => {
       if(this.usernameValue === this.username && this.email === this.emailValue){
         this.#showMessageBar('You must edit something', 3);
         return;
@@ -159,7 +167,26 @@ export class ProfilePage implements OnInit{
         artist: {...this.user['artist']}
       }))
 
-      this.#showMessageBar('The user has been edited correctly', 0);
+      const result = await this.callService.call({
+        method: 'put',
+        endPoint: 'editProfile',
+        body: {
+          username: this.usernameValue,
+          email: this.emailValue,
+          password: this.passwordValue
+        },
+        isToken: true
+      })
+
+      this.#showMessageBar(result.message['description'], result.message['code']);
+      if(result.message['code'] == 1 || result.message['code'] == 3){
+        return;
+      }
+
+      setTimeout(() => {
+        this.router.navigate(['/tabs/home']);
+      }, 600)
+
       return;
     }
 
@@ -178,7 +205,28 @@ export class ProfilePage implements OnInit{
         }
       }))
 
+      
+
     }
+
+  async onDelete(){
+    const result = await this.callService.call({
+      method: 'delete',
+      body: null,
+      isToken: true,
+      endPoint: 'deleteAccount'
+    })
+
+    this.#showMessageBar(result.message['description'], result.message['code']);
+    if(result.message['code'] == 1 || result.message['code'] == 3){
+      return;
+    }
+
+    setTimeout(() => {
+      this.router.navigate(['/login'])
+    }, 600)
+
+  }
 
   async onSelectImage(){
     try {

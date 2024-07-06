@@ -5,7 +5,7 @@
             </ion-buttons>
           <div class="cont-header">
             <div class="container-image">
-                <img [src]="album.image" alt="Album">
+                <img [src]="album.image ? album.image : ''" alt="Album">
             </div>
             <div class="album-info">
                 <h2>{{album.name}}</h2>
@@ -22,6 +22,8 @@
                     [artists]="song.artists || []"
                     [title]="song.title || ''"
                     [url_song]="song.song || ''"
+                    [likes]="song.likes || 0"
+                    [isLiked]="song.isLiked || false"
                     [id]="song.id || ''"
                     [index]="i"
                 ></app-card-component>
