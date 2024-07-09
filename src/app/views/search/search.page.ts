@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { LoadingController } from '@ionic/angular';
 import { Operation } from 'src/app/interfaces/operation';
 import { Song } from 'src/app/interfaces/song';
@@ -14,12 +14,12 @@ import { setThrowInvalidWriteToSignalError } from '@angular/core/primitives/sign
   templateUrl: 'search.page.html',
   styleUrls: ['search.page.scss']
 })
-export class SearchPage {
+export class SearchPage implements OnInit {
   
   searchTxt: string = '';
   selectedChange: string = 'song';
   operation: Operation = {endpoint: 'songByName', body: null};
-  genres: Array<string> = ['pop', 'rock', 'regueton']
+  genres: Array<string> = [];
 
   //PropAlert
   showAlert: boolean = false;
@@ -40,6 +40,20 @@ export class SearchPage {
     private callService: CallService,
     private songService: SongService
   ) {}
+  async ngOnInit() {
+      const result = await this.callService.call({
+        method: 'get',
+        body: null,
+        isToken: true,
+        endPoint: 'allGenres'
+      })
+      
+      if(result.message['code'] == 1 || result.message['code'] == 3){
+        return this.#showMessageBar(result.message['description'], result.message['code'])
+      }
+
+      this.genres = result['data'];
+  }
 
 
   onChange(event: Event) {

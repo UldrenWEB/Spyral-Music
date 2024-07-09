@@ -1,6 +1,6 @@
 <div class="container">
     <div (click)="selectFile()" class="upload-audio">
-        <h2>{{!selectAudio ? 'Upload your song' : nameAudio}}</h2>
+        <h2>{{!selectAudio ? 'Upload your song' : truncateText(nameAudio, 12)}}</h2>
     </div>
 
     <div class="cont-input">
@@ -28,9 +28,9 @@
                 >
                 <ion-select-option 
                     *ngFor="let genre of genres"
-                    [value]="genre.id"  
+                    [value]="genre"  
                 >
-                {{ genre.description }}
+                {{ genre }}
                 </ion-select-option>
             </ion-select>
         </div>

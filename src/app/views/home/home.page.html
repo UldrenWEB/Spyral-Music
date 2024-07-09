@@ -1,6 +1,7 @@
 <ion-content class="container">
 
   <div class="content">
+    <div>
      <h2>Top Albums</h2>
      <div class="cont-x" >
         <div *ngFor="let album of dataAlbums">
@@ -13,20 +14,7 @@
           ></app-album-component>
         </div> 
      </div>
-     <div>
-       <h2>Top Artist</h2>
-       <div class="cont-x"> 
-        <div *ngFor="let artist of dataArtists; let i = index">
-          <app-album-component
-              [title]="artist.name"
-              [artists]="['']"
-              [imageSrc]="artist.image"
-              [genres]="artist.genres"
-              [tracks]="artist.songs"
-          ></app-album-component>
-        </div>
-        </div>
-     <div>
+      <div>
        <h2>Top Genres</h2>
        <div class="cont-x">
         <div *ngFor="let artist of dataSongs; let i = index">

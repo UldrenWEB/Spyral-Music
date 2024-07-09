@@ -30,12 +30,7 @@ export class UploadPage implements OnInit {
     alertMessage: string = '';
     alertCode: number = 0;
     isShow: boolean = false;
-    genres: Array<{id: string, description: string}> = [
-        { id: 'rock', description: 'Rock' },
-        { id: 'pop', description: 'Pop' },
-        { id: 'jazz', description: 'Jazz' },
-        { id: 'electronic', description: 'Electronic' }
-      ];
+    genres: Array<string> = [];
       songName: string = '';
       regexSongname: string = '.{4,}';
       isValidSongname: boolean = false;
@@ -49,8 +44,19 @@ export class UploadPage implements OnInit {
   ) { }
 
 
-  ngOnInit(): void {
-      this.checkPermissions();
+  async ngOnInit() {
+    const result = await this.callService.call({
+      method: 'get',
+      body: null,
+      isToken: true,
+      endPoint: 'allGenres'
+    })
+    
+    if(result.message['code'] == 1 || result.message['code'] == 3){
+      return this.showMessageBar(result.message['description'], result.message['code'])
+    }
+
+    this.genres = result['data'];
   }
 
 
@@ -213,12 +219,12 @@ export class UploadPage implements OnInit {
           return this.showMessageBar('An error occurred while obtaining the image or song blob.', 1);
 
       
-      console.log(`["${this.selectedGenres.join('","')}"]`)
       const formData = new FormData();
       formData.append('song', this.audioBlob, 'song');
       formData.append('name', this.nameAudio);
-      formData.append('genres', `[${this.selectedGenres.join(',')}]`)
+      formData.append('genres', `${this.selectedGenres.join(',')}`)
       formData.append('image', this.imageBlob, 'image');
+      formData.append('duration', '2');
 
       const result = await this.callService.callToFormData({
         formData,
@@ -238,6 +244,14 @@ export class UploadPage implements OnInit {
       this.nameAudio = '';
     } catch (error) {
       return this.showMessageBar('Could not upload the song', 1);
+    }
+  }
+
+  truncateText(text: string, maxLength: number): string {
+    if (text.length > maxLength) {
+        return text.substring(0, maxLength) + '...';
+    } else {
+        return text;
     }
   }
     

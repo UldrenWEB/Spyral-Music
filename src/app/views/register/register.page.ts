@@ -129,14 +129,14 @@ export class RegisterPage implements OnInit{
         idRol: '2',
       }
       })
-      this.#showMessageBar(result.message['description'], result.message['code']);
-      if(result.message['code'] == 1 || result.message['code'] == 2){
-      return;
+        this.#showMessageBar(result.message['description'], result.message['code']);
+        if(result.message['code'] == 1 || result.message['code'] == 2){
+        return;
       }
 
       this.resetProps();
       setTimeout(() => {
-        this.router.navigate(['/tabs'])
+        this.router.navigate(['/login'])
       }, 500)
       return;
     }
